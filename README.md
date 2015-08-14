@@ -13,3 +13,33 @@
 (https://packagist.org/packages/nilportugues/api-transformer) [![License]
 (https://poser.pugx.org/nilportugues/api-transformer/license)]
 (https://packagist.org/packages/nilportugues/api-transformer) 
+
+## Purpose
+This library provides the core functionality for API transformation. As a base library, by itself it's not usable at all.
+
+## Used by
+
+Currently the following transformers make use of this library as foundation:
+
+- [nilportugues/json](https://github.com/nilportugues/json-transformer)
+- [nilportugues/jsend](https://github.com/nilportugues/jsend-transformer)
+- [nilportugues/haljson](https://github.com/nilportugues/hal-json-transformer)
+- [nilportugues/json-api](https://github.com/nilportugues/jsonapi-transformer)
+
+
+## Quality
+
+To run the PHPUnit tests at the command line, go to the tests directory and issue phpunit.
+
+This library attempts to comply with PSR-1, PSR-2, and PSR-4. If you notice compliance oversights, please send a patch via pull request.
+
+
+## Author
+
+Nil Portugués Calderó
+
+ - <contact@nilportugues.com>
+ - [http://nilportugues.com](http://nilportugues.com)
+
+## License
+The code base is licensed under the MIT license.
