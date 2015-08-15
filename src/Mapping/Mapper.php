@@ -41,8 +41,8 @@ class Mapper
                     );
                 }
 
-                $this->classMap[$mapping->getClassName()] = $mapping;
-                $this->aliasMap[$mapping->getClassAlias()] = $mapping->getClassName();
+                $this->classMap[ltrim($mapping->getClassName(), "\\")] = $mapping;
+                $this->aliasMap[ltrim($mapping->getClassAlias(), "\\")] = $mapping->getClassName();
             }
         }
     }
