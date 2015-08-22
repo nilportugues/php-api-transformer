@@ -8,6 +8,14 @@ class Mapping
 {
     /**
      * @var string
+     */    
+    private $className = '';
+    /**
+     * @var string
+     */    
+    private $resourceUrlPattern = '';    
+    /**
+     * @var string
      */
     private $classAlias = '';
     /**
