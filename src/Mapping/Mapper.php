@@ -29,7 +29,7 @@ class Mapper
      *
      * @throws MappingException
      */
-    public function __construct(array &$mappings = null)
+    public function __construct(array $mappings = null)
     {
         if (is_array($mappings)) {
             foreach ($mappings as $mappedClass) {
