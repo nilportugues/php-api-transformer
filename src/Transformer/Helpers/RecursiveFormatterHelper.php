@@ -60,7 +60,7 @@ final class RecursiveFormatterHelper
     {
         $idProperties = [];
 
-        if (!empty($mappings[$type])) {
+        if (is_scalar($type) && !empty($mappings[$type])) {
             $idProperties = $mappings[$type]->getIdProperties();
         }
 

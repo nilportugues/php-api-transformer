@@ -52,7 +52,7 @@ final class RecursiveFilterHelper
         $type,
         array &$newArray
     ) {
-        if ($type === $typeKey) {
+        if (is_scalar($type) && $type === $typeKey) {
             $keepKeys = $mappings[$typeKey]->getFilterKeys();
             $idProperties = $mappings[$typeKey]->getIdProperties();
 

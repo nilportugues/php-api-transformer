@@ -69,7 +69,7 @@ class RecursiveRenamerHelper
      */
     private static function renameMatchedClassKeys(array &$mappings, array &$array, $typeKey, $type, array &$newArray)
     {
-        if ($type === $typeKey) {
+        if (is_scalar($type) && $type === $typeKey) {
             $replacements = $mappings[$typeKey]->getAliasedProperties();
             if (!empty($replacements)) {
                 self::renameKeys($mappings, $array, $typeKey, $replacements, $newArray);

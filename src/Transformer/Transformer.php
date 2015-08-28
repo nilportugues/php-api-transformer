@@ -266,7 +266,7 @@ abstract class Transformer implements StrategyInterface
      */
     protected function getResponseAdditionalLinks(array $copy, $type)
     {
-        if (!empty($this->mappings[$type])) {
+        if (is_scalar($type) && !empty($this->mappings[$type])) {
             $otherUrls = $this->mappings[$type]->getUrls();
             list($idValues, $idProperties) = RecursiveFormatterHelper::getIdPropertyAndValues(
                 $this->mappings,
