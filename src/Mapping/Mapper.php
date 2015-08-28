@@ -29,7 +29,7 @@ class Mapper
      *
      * @throws MappingException
      */
-    public function __construct(array &$mappings = null)
+    public function __construct(array $mappings = null)
     {
         if (is_array($mappings)) {
             foreach ($mappings as $mappedClass) {
@@ -41,8 +41,8 @@ class Mapper
                     );
                 }
 
-                $this->classMap[$mapping->getClassName()] = $mapping;
-                $this->aliasMap[$mapping->getClassAlias()] = $mapping->getClassName();
+                $this->classMap[ltrim($mapping->getClassName(), "\\")] = $mapping;
+                $this->aliasMap[ltrim($mapping->getClassAlias(), "\\")] = $mapping->getClassName();
             }
         }
     }
