@@ -61,12 +61,6 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
         MappingFactory::fromArray($mappedClass);
     }
 
-    public function testItWillThrowExceptionIfArrayHasNoIdPropertiesKey()
-    {
-        $this->setExpectedException(MappingException::class);
-        $mappedClass = ['class' => 'Post', 'id_properties' => [], 'urls' => ['self' => 'some/url']];
-        MappingFactory::fromArray($mappedClass);
-    }
 
     public function testItWillThrowExceptionIfArrayHasNoSelfUrlKey()
     {

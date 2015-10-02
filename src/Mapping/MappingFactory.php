@@ -95,19 +95,12 @@ class MappingFactory
     /**
      * @param array $mappedClass
      *
-     * @throws MappingException
-     *
      * @return mixed
      */
     private static function getIdProperties(array &$mappedClass)
     {
-        if (empty($mappedClass['id_properties'])) {
-            throw new MappingException(
-                'Could not find "id_properties" property with data . This is required in order to make the resource to be reachable.'
-            );
-        }
 
-        return $mappedClass['id_properties'];
+        return (!empty($mappedClass['id_properties']))? $mappedClass['id_properties'] : [];
     }
 
     /**
