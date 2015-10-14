@@ -16,6 +16,27 @@ use NilPortugues\Tests\Api\Dummy\ComplexObject\ValueObject\UserId;
 class Post
 {
     /**
+     * @var PostId
+     */
+    private $postId;
+    /**
+     * @var
+     */
+    private $title;
+    /**
+     * @var
+     */
+    private $content;
+    /**
+     * @var User
+     */
+    private $author;
+    /**
+     * @var array
+     */
+    private $comments;
+
+    /**
      * @param PostId $id
      * @param $title
      * @param $content

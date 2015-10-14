@@ -54,13 +54,102 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://example.com/posts/{postId}/relationships/author', $mapping->getRelationshipSelfUrl('author'));
     }
 
+    public function testItCanBuildMappingsFromArrayWillThrowExceptionIfAliasPropertyDoesNotExist()
+    {
+        $mappedClass = [
+            'class' => Post::class,
+            'alias' => 'Message',
+            'aliased_properties' => [
+                'I_do_not_exist' => 'headline',
+                'content' => 'body',
+            ],
+            'hide_properties' => [
+                'comments',
+            ],
+            'id_properties' => [
+                'postId',
+            ],
+            'urls' => [
+                'self' => 'http://example.com/posts/{postId}',
+            ],
+            'relationships' => [
+                'author' => [
+                    'related' => 'http://example.com/posts/{postId}/author',
+                    'self' => 'http://example.com/posts/{postId}/relationships/author',
+                ],
+            ],
+        ];
+
+        $this->setExpectedException(MappingException::class);
+        MappingFactory::fromArray($mappedClass);
+    }
+
+    public function testItCanBuildMappingsFromArrayWillThrowExceptionIfHidePropertyDoesNotExist()
+    {
+        $mappedClass = [
+            'class' => Post::class,
+            'alias' => 'Message',
+            'aliased_properties' => [
+                'title' => 'headline',
+                'content' => 'body',
+            ],
+            'hide_properties' => [
+                'I_do_not_exist',
+            ],
+            'id_properties' => [
+                'postId',
+            ],
+            'urls' => [
+                'self' => 'http://example.com/posts/{postId}',
+            ],
+            'relationships' => [
+                'author' => [
+                    'related' => 'http://example.com/posts/{postId}/author',
+                    'self' => 'http://example.com/posts/{postId}/relationships/author',
+                ],
+            ],
+        ];
+
+        $this->setExpectedException(MappingException::class);
+        MappingFactory::fromArray($mappedClass);
+    }
+
+    public function testItCanBuildMappingsFromArrayWillThrowExceptionIfRelationshipPropertyDoesNotExist()
+    {
+        $mappedClass = [
+            'class' => Post::class,
+            'alias' => 'Message',
+            'aliased_properties' => [
+                'title' => 'headline',
+                'content' => 'body',
+            ],
+            'hide_properties' => [
+                'comments',
+            ],
+            'id_properties' => [
+                'postId',
+            ],
+            'urls' => [
+                'self' => 'http://example.com/posts/{postId}',
+            ],
+            'relationships' => [
+                'I_do_not_exist' => [
+                    'related' => 'http://example.com/posts/{postId}/author',
+                    'self' => 'http://example.com/posts/{postId}/relationships/author',
+                ],
+            ],
+        ];
+
+        $this->setExpectedException(MappingException::class);
+        MappingFactory::fromArray($mappedClass);
+    }
+
     public function testItWillThrowExceptionIfArrayHasNoClassKey()
     {
         $this->setExpectedException(MappingException::class);
         $mappedClass = [];
         MappingFactory::fromArray($mappedClass);
     }
-
 
     public function testItWillThrowExceptionIfArrayHasNoSelfUrlKey()
     {
