@@ -10,13 +10,22 @@
  */
 namespace NilPortugues\Api\Mapping;
 
+use ReflectionClass;
+
 /**
  * Class MappingFactory.
  */
 class MappingFactory
 {
     /**
+     * @var array
+     */
+    private static $classProperties = [];
+
+    /**
      * @param array $mappedClass
+     *
+     * @throws MappingException
      *
      * @return Mapping
      */
@@ -29,43 +38,10 @@ class MappingFactory
         $mapping = new Mapping($className, $resourceUrl, $idProperties);
         $mapping->setClassAlias((empty($mappedClass['alias'])) ? $className : $mappedClass['alias']);
 
-        if (false === empty($mappedClass['aliased_properties'])) {
-            $mapping->setPropertyNameAliases($mappedClass['aliased_properties']);
-            foreach (array_keys($mapping->getAliasedProperties()) as $propertyName) {
-                if (false === in_array($propertyName, self::getClassProperties($className), true)) {
-                    throw new MappingException(
-                        sprintf('Could not alias property %s in class %s because it does not exist.', $propertyName, $className)
-                    );
-                }
-            }
-        }
-
-        if (false === empty($mappedClass['hide_properties'])) {
-            $mapping->setHiddenProperties($mappedClass['hide_properties']);
-            foreach ($mapping->getHiddenProperties() as $propertyName) {
-                if (false === in_array($propertyName, self::getClassProperties($className), true)) {
-                    throw new MappingException(
-                        sprintf('Could not hide property %s in class %s because it does not exist.', $propertyName, $className)
-                    );
-                }
-            }
-        }
-
-        if (!empty($mappedClass['relationships'])) {
-            foreach ($mappedClass['relationships'] as $propertyName => $urls) {
-                if (false === in_array($propertyName, self::getClassProperties($className), true)) {
-                    throw new MappingException(
-                        sprintf('Could not find property %s in class %s because it does not exist.', $propertyName, $className)
-                    );
-                }
-
-                $mapping->setRelationshipUrls($propertyName, $urls);
-            }
-        }
-
-        if (false === empty($mappedClass['curies'])) {
-            $mapping->setCuries($mappedClass['curies']);
-        }
+        self::setAliasedProperties($mappedClass, $mapping, $className);
+        self::setHideProperties($mappedClass, $mapping, $className);
+        self::setRelationships($mappedClass, $mapping, $className);
+        self::setCuries($mappedClass, $mapping);
 
         $otherUrls = self::getOtherUrls($mappedClass);
         if (!empty($otherUrls)) {
@@ -122,17 +98,28 @@ class MappingFactory
     }
 
     /**
-     * @param array $mappedClass
+     * @param array   $mappedClass
+     * @param Mapping $mapping
+     * @param string  $className
      *
-     * @return mixed
+     * @throws MappingException
      */
-    private static function getOtherUrls(array $mappedClass)
+    protected static function setAliasedProperties(array &$mappedClass, Mapping $mapping, $className)
     {
-        if (!empty($mappedClass['urls']['self'])) {
-            unset($mappedClass['urls']['self']);
+        if (false === empty($mappedClass['aliased_properties'])) {
+            $mapping->setPropertyNameAliases($mappedClass['aliased_properties']);
+            foreach (array_keys($mapping->getAliasedProperties()) as $propertyName) {
+                if (false === in_array($propertyName, self::getClassProperties($className), true)) {
+                    throw new MappingException(
+                        sprintf(
+                            'Could not alias property %s in class %s because it does not exist.',
+                            $propertyName,
+                            $className
+                        )
+                    );
+                }
+            }
         }
-
-        return $mappedClass['urls'];
     }
 
     /**
@@ -147,20 +134,99 @@ class MappingFactory
      */
     private static function getClassProperties($className)
     {
-        $ref = new \ReflectionClass($className);
-        $properties = array();
-        foreach ($ref->getProperties() as $prop) {
-            $f = $prop->getName();
-            $properties[$f] = $prop;
+        if (empty(self::$classProperties[$className])) {
+            $ref = new ReflectionClass($className);
+            $properties = [];
+            foreach ($ref->getProperties() as $prop) {
+                $f = $prop->getName();
+                $properties[$f] = $prop;
+            }
+
+            if ($parentClass = $ref->getParentClass()) {
+                $parentPropsArr = self::getClassProperties($parentClass->getName());
+                if (count($parentPropsArr) > 0) {
+                    $properties = array_merge($parentPropsArr, $properties);
+                }
+            }
+            self::$classProperties[$className] = array_keys($properties);
         }
 
-        if ($parentClass = $ref->getParentClass()) {
-            $parentPropsArr = self::getClassProperties($parentClass->getName());
-            if (count($parentPropsArr) > 0) {
-                $properties = array_merge($parentPropsArr, $properties);
+        return self::$classProperties[$className];
+    }
+
+    /**
+     * @param array   $mappedClass
+     * @param Mapping $mapping
+     * @param string  $className
+     *
+     * @throws MappingException
+     */
+    protected static function setHideProperties(array &$mappedClass, Mapping $mapping, $className)
+    {
+        if (false === empty($mappedClass['hide_properties'])) {
+            $mapping->setHiddenProperties($mappedClass['hide_properties']);
+            foreach ($mapping->getHiddenProperties() as $propertyName) {
+                if (false === in_array($propertyName, self::getClassProperties($className), true)) {
+                    throw new MappingException(
+                        sprintf(
+                            'Could not hide property %s in class %s because it does not exist.',
+                            $propertyName,
+                            $className
+                        )
+                    );
+                }
             }
         }
+    }
 
-        return array_keys($properties);
+    /**
+     * @param array   $mappedClass
+     * @param Mapping $mapping
+     * @param string  $className
+     *
+     * @throws MappingException
+     */
+    protected static function setRelationships(array &$mappedClass, Mapping $mapping, $className)
+    {
+        if (!empty($mappedClass['relationships'])) {
+            foreach ($mappedClass['relationships'] as $propertyName => $urls) {
+                if (false === in_array($propertyName, self::getClassProperties($className), true)) {
+                    throw new MappingException(
+                        sprintf(
+                            'Could not find property %s in class %s because it does not exist.',
+                            $propertyName,
+                            $className
+                        )
+                    );
+                }
+
+                $mapping->setRelationshipUrls($propertyName, $urls);
+            }
+        }
+    }
+
+    /**
+     * @param array   $mappedClass
+     * @param Mapping $mapping
+     */
+    protected static function setCuries(array &$mappedClass, Mapping $mapping)
+    {
+        if (false === empty($mappedClass['curies'])) {
+            $mapping->setCuries($mappedClass['curies']);
+        }
+    }
+
+    /**
+     * @param array $mappedClass
+     *
+     * @return mixed
+     */
+    private static function getOtherUrls(array $mappedClass)
+    {
+        if (!empty($mappedClass['urls']['self'])) {
+            unset($mappedClass['urls']['self']);
+        }
+
+        return $mappedClass['urls'];
     }
 }
