@@ -1,6 +1,6 @@
 <?php
 
-namespace NilPortugues\Api\Mapping\ClassMapping;
+namespace NilPortugues\Api\Mappings;
 
 interface JsonApiMapping
 {

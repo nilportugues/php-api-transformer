@@ -13,9 +13,24 @@ namespace NilPortugues\Tests\Api\Mapping;
 use NilPortugues\Api\Mapping\MappingException;
 use NilPortugues\Api\Mapping\MappingFactory;
 use NilPortugues\Tests\Api\Dummy\ComplexObject\Post;
+use NilPortugues\Tests\Api\Dummy\PostApiMapping;
 
 class MappingFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    public function testItCanBuildMappingsFromClass()
+    {
+        $mapping = MappingFactory::fromClass(PostApiMapping::class);
+
+        $this->assertEquals(Post::class, $mapping->getClassName());
+        $this->assertEquals('message', $mapping->getClassAlias());
+        $this->assertEquals(['title' => 'headline', 'content' => 'body'], $mapping->getAliasedProperties());
+        $this->assertEquals(['comments'], $mapping->getHiddenProperties());
+        $this->assertEquals(['postId'], $mapping->getIdProperties());
+        $this->assertEquals('http://example.com/posts/{postId}', $mapping->getResourceUrl());
+        $this->assertEquals('http://example.com/posts/{postId}/author', $mapping->getRelatedUrl('author'));
+        $this->assertEquals('http://example.com/posts/{postId}/relationships/author', $mapping->getRelationshipSelfUrl('author'));
+    }
+
     public function testItCanBuildMappingsFromArray()
     {
         $mappedClass = [

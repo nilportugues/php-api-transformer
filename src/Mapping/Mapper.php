@@ -33,7 +33,11 @@ class Mapper
     {
         if (is_array($mappings)) {
             foreach ($mappings as $mappedClass) {
-                $mapping = MappingFactory::fromArray($mappedClass);
+                if (is_string($mappedClass) && class_exists($mappedClass, true)) {
+                    $mapping = MappingFactory::fromClass($mappedClass);
+                } else {
+                    $mapping = MappingFactory::fromArray($mappedClass);
+                }
 
                 if (false === empty($this->aliasMap[$mapping->getClassAlias()])) {
                     throw new MappingException(

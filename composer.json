@@ -28,6 +28,7 @@
         "psr-4": {
             "NilPortugues\\Api\\Http\\": "src/Http/",
             "NilPortugues\\Api\\Mapping\\": "src/Mapping/",
+            "NilPortugues\\Api\\Mappings\\": "src/Mappings/",
             "NilPortugues\\Api\\Transformer\\": "src/Transformer/"
         }
     },

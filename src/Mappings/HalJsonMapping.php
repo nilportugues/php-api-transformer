@@ -1,8 +1,8 @@
 <?php
 
-namespace NilPortugues\Api\Mapping\ClassMapping;
+namespace NilPortugues\Api\Mappings;
 
-interface HalJsonMapping extends ApiMappingInterface
+interface HalJsonMapping extends ApiMapping
 {
     /**
      * Returns an array of curies.

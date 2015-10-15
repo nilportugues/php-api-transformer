@@ -1,8 +1,8 @@
 <?php
 
-namespace NilPortugues\Api\Mapping\ClassMapping;
+namespace NilPortugues\Api\Mappings;
 
-interface ApiMappingInterface
+interface ApiMapping
 {
     /**
      * Returns a string with the full class name, including namespace.
