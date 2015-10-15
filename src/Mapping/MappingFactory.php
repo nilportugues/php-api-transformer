@@ -40,12 +40,17 @@ class MappingFactory
     public static function fromClass($className)
     {
         /* @var ApiMapping|HalJsonMapping|JsonApiMapping $instance */
-        $className = (string) $className;
+        $className = '\\'.ltrim($className, '\\');
+        if (!class_exists($className, true)) {
+            throw new MappingException(
+                sprintf('Provided class %s could not be loaded.', $className)
+            );
+        }
         $instance = new $className();
 
         if (!in_array(ApiMapping::class, class_implements($instance, true))) {
             throw new MappingException(
-                sprintf('Class %s must implement %s.', get_class($instance), ApiMapping::class)
+                sprintf('Class %s must implement %s.', ltrim($className, '\\'), ApiMapping::class)
             );
         }
 

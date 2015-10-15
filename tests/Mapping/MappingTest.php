@@ -62,6 +62,18 @@ class MappingTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
+    public function testAliasedPropertiesRenamedIdProperties()
+    {
+        $this->mapping->setPropertyNameAliases(['postId' => 'newId']);
+        $this->assertEquals(
+            ['postId' => 'newId'],
+            $this->mapping->getAliasedProperties()
+        );
+        $this->assertEquals(['newId'], $this->mapping->getIdProperties());
+    }
+    /**
+     *
+     */
     public function testHiddenProperties()
     {
         $this->mapping->setHiddenProperties(['propertyName']);

@@ -31,6 +31,18 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://example.com/posts/{postId}/relationships/author', $mapping->getRelationshipSelfUrl('author'));
     }
 
+    public function testItCanBuildMappingsFromClassWillThrowExceptionIfAClassIsNotProvided()
+    {
+        $this->setExpectedException(MappingException::class);
+        MappingFactory::fromClass('NotAClass');
+    }
+
+    public function testItCanBuildMappingsFromClassWillThrowExceptionIfClassDoesImplementApiMappingInterface()
+    {
+        $this->setExpectedException(MappingException::class);
+        MappingFactory::fromClass('\DateTime');
+    }
+
     public function testItCanBuildMappingsFromArray()
     {
         $mappedClass = [
@@ -169,7 +181,7 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
     public function testItWillThrowExceptionIfArrayHasNoSelfUrlKey()
     {
         $this->setExpectedException(MappingException::class);
-        $mappedClass = ['class' => 'Post', 'id_properties' => ['postId'], 'urls' => []];
+        $mappedClass = ['class' => Post::class, 'id_properties' => ['postId'], 'urls' => []];
         MappingFactory::fromArray($mappedClass);
     }
 }

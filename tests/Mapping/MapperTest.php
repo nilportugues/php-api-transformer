@@ -13,10 +13,21 @@ namespace NilPortugues\Tests\Api\Mapping;
 use NilPortugues\Api\Mapping\Mapper;
 use NilPortugues\Api\Mapping\MappingException;
 use NilPortugues\Tests\Api\Dummy\ComplexObject\Post;
+use NilPortugues\Tests\Api\Dummy\PostApiMapping;
 
 class MapperTest extends \PHPUnit_Framework_TestCase
 {
-    public function testItCanConstruct()
+    public function testItCanConstructWithClassArray()
+    {
+        $mapping = [
+            PostApiMapping::class,
+        ];
+
+        $mapper = new Mapper($mapping);
+        $this->assertNotEmpty($mapper->getClassMap());
+    }
+
+    public function testItCanConstructWithArray()
     {
         $mapping = [
             [
