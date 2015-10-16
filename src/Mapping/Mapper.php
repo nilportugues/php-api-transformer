@@ -33,11 +33,7 @@ class Mapper
     {
         if (is_array($mappings)) {
             foreach ($mappings as $mappedClass) {
-                if (is_string($mappedClass) && class_exists($mappedClass, true)) {
-                    $mapping = MappingFactory::fromClass($mappedClass);
-                } else {
-                    $mapping = MappingFactory::fromArray($mappedClass);
-                }
+                $mapping = $this->buildMapping($mappedClass);
 
                 if (false === empty($this->aliasMap[$mapping->getClassAlias()])) {
                     throw new MappingException(
@@ -52,11 +48,15 @@ class Mapper
     }
 
     /**
-     * @param array $array
+     * @param string|array $mappedClass
+     *
+     * @return array
      */
-    public function setClassMap(array $array)
+    protected function buildMapping($mappedClass)
     {
-        $this->classMap = $array;
+        return (is_string($mappedClass) && class_exists($mappedClass, true)) ?
+            MappingFactory::fromClass($mappedClass) :
+            MappingFactory::fromArray($mappedClass);
     }
 
     /**
@@ -65,5 +65,13 @@ class Mapper
     public function getClassMap()
     {
         return $this->classMap;
+    }
+
+    /**
+     * @param array $array
+     */
+    public function setClassMap(array $array)
+    {
+        $this->classMap = $array;
     }
 }
