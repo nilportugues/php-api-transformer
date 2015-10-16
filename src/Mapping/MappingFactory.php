@@ -31,8 +31,14 @@ class MappingFactory
     const SELF_KEY = 'self';
 
     /**
+     * @var array
+     */
+    protected static $classProperties = [];
+
+    /**
      * @param string $className
      *
+     * @throws MappingException
      * @return Mapping
      *
      * @since 2.0.0
@@ -74,10 +80,6 @@ class MappingFactory
         return static::fromArray($mappedClass);
     }
 
-    /**
-     * @var array
-     */
-    protected static $classProperties = [];
 
     /**
      * @param array $mappedClass
