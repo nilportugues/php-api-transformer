@@ -50,7 +50,7 @@ class Mapper
     /**
      * @param string|array $mappedClass
      *
-     * @return array
+     * @return Mapping
      */
     protected function buildMapping($mappedClass)
     {
