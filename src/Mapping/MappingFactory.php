@@ -189,7 +189,7 @@ class MappingFactory
      *
      * @link http://php.net/manual/es/reflectionclass.getproperties.php#88405
      */
-    private static function getClassProperties($className)
+    protected static function getClassProperties($className)
     {
         if (empty(self::$classProperties[$className])) {
             $ref = new ReflectionClass($className);
