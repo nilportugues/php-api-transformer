@@ -36,8 +36,14 @@ class Mapper
                 $mapping = $this->buildMapping($mappedClass);
 
                 if (false === empty($this->aliasMap[$mapping->getClassAlias()])) {
+
                     throw new MappingException(
-                        'Class with the same name already present. Please add an alias or change an existing one.'
+                        sprintf(
+                            'Class with name \'%s\' already present, used by \'%s\'. Please add an alias for \'%s\' or change an existing one.',
+                            $mapping->getClassAlias(),
+                            $this->aliasMap[$mapping->getClassAlias()],
+                            $mapping->getClassName()
+                        )
                     );
                 }
 
