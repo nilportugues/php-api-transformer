@@ -2,7 +2,7 @@
 
 namespace NilPortugues\Api\Mappings;
 
-interface JsonApiMapping
+interface JsonApiMapping extends ApiMapping
 {
     /**
      * Returns an array containing the relationship mappings as an array.
