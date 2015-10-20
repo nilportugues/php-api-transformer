@@ -11,7 +11,6 @@
 namespace NilPortugues\Tests\Api\Mapping;
 
 use NilPortugues\Api\Mapping\Mapper;
-use NilPortugues\Api\Mapping\MappingException;
 use NilPortugues\Tests\Api\Dummy\ComplexObject\Post;
 use NilPortugues\Tests\Api\Dummy\PostApiMapping;
 
@@ -60,67 +59,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
         $mapper = new Mapper($mapping);
         $this->assertNotEmpty($mapper->getClassMap());
-    }
-
-    public function testItCanThrowException()
-    {
-        $this->setExpectedException(MappingException::class);
-
-        $mapping = [
-            [
-                'class' => Post::class,
-                'alias' => 'Message',
-                'aliased_properties' => [
-                    'author' => 'author',
-                    'title' => 'headline',
-                    'content' => 'body',
-                ],
-                'hide_properties' => [
-
-                ],
-                'id_properties' => [
-                    'postId',
-                ],
-                'urls' => [
-                    // Mandatory
-                    'self' => 'http://example.com/posts/{postId}',
-                    // Optional
-                    'comments' => 'http://example.com/posts/{postId}/comments',
-                ],
-                // (Optional) Used by HAL+JSON
-                'curies' => [
-                    'name' => 'example',
-                    'href' => 'http://example.com/docs/rels/{rel}',
-                ],
-            ],
-            [
-                'class' => Post::class,
-                'alias' => 'Message',
-                'aliased_properties' => [
-                    'author' => 'author',
-                    'title' => 'headline',
-                    'content' => 'body',
-                ],
-                'hide_properties' => [
-
-                ],
-                'id_properties' => [
-                    'postId',
-                ],
-                'urls' => [
-                    // Mandatory
-                    'self' => 'http://example.com/posts/{postId}',
-                    // Optional
-                    'comments' => 'http://example.com/posts/{postId}/comments',
-                ],
-                // (Optional) Used by HAL+JSON
-                'curies' => [
-                    'name' => 'example',
-                    'href' => 'http://example.com/docs/rels/{rel}',
-                ],
-            ],
-        ];
-        new Mapper($mapping);
     }
 
     public function testItCanSetClassMap()

@@ -39,6 +39,7 @@ class MappingFactory
      * @param string $className
      *
      * @throws MappingException
+     *
      * @return Mapping
      *
      * @since 2.0.0
@@ -79,7 +80,6 @@ class MappingFactory
 
         return static::fromArray($mappedClass);
     }
-
 
     /**
      * @param array $mappedClass

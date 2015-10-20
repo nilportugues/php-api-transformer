@@ -35,20 +35,8 @@ class Mapper
             foreach ($mappings as $mappedClass) {
                 $mapping = $this->buildMapping($mappedClass);
 
-                if (false === empty($this->aliasMap[$mapping->getClassAlias()])) {
-
-                    throw new MappingException(
-                        sprintf(
-                            'Class with name \'%s\' already present, used by \'%s\'. Please add an alias for \'%s\' or change an existing one.',
-                            $mapping->getClassAlias(),
-                            $this->aliasMap[$mapping->getClassAlias()],
-                            $mapping->getClassName()
-                        )
-                    );
-                }
-
                 $this->classMap[ltrim($mapping->getClassName(), '\\')] = $mapping;
-                $this->aliasMap[ltrim($mapping->getClassAlias(), '\\')] = $mapping->getClassName();
+                $this->aliasMap[ltrim($mapping->getClassAlias(), '\\')][] = $mapping->getClassName();
             }
         }
     }
@@ -79,5 +67,20 @@ class Mapper
     public function setClassMap(array $array)
     {
         $this->classMap = $array;
+    }
+
+    /**
+     * @param string $firstClass
+     * @param string $secondClass
+     *
+     * @return bool
+     */
+    private function isSubclass($firstClass, $secondClass)
+    {
+        if ($firstClass === $secondClass) {
+            return false;
+        }
+
+        return is_subclass_of($firstClass, $secondClass, true) || is_subclass_of($secondClass, $firstClass, true);
     }
 }
