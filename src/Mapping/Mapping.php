@@ -138,17 +138,17 @@ class Mapping
      */
     private function updatePropertyMappings($propertyName, $propertyAlias)
     {
-        if (in_array($propertyName, $this->idProperties)) {
-            $position = array_search($propertyName, $this->idProperties, true);
+        if (\in_array($propertyName, $this->idProperties)) {
+            $position = \array_search($propertyName, $this->idProperties, true);
             $this->idProperties[$position] = $propertyAlias;
         }
 
-        $search = sprintf('{%s}', $propertyName);
-        $replace = sprintf('{%s}', $propertyAlias);
+        $search = \sprintf('{%s}', $propertyName);
+        $replace = \sprintf('{%s}', $propertyAlias);
 
-        $this->selfUrl = str_replace($search, $replace, $this->selfUrl);
-        $this->resourceUrlPattern = str_replace($search, $replace, $this->resourceUrlPattern);
-        $this->otherUrls = str_replace($search, $replace, $this->otherUrls);
+        $this->selfUrl = \str_replace($search, $replace, $this->selfUrl);
+        $this->resourceUrlPattern = \str_replace($search, $replace, $this->resourceUrlPattern);
+        $this->otherUrls = \str_replace($search, $replace, $this->otherUrls);
     }
 
     /**
@@ -156,7 +156,7 @@ class Mapping
      */
     public function setPropertyNameAliases(array $properties)
     {
-        $this->aliasedProperties = array_merge($this->aliasedProperties, $properties);
+        $this->aliasedProperties = \array_merge($this->aliasedProperties, $properties);
 
         foreach ($this->aliasedProperties as $propertyName => $propertyAlias) {
             $this->updatePropertyMappings($propertyName, $propertyAlias);
@@ -199,7 +199,7 @@ class Mapping
      */
     public function setHiddenProperties(array $hidden)
     {
-        $this->hiddenProperties = array_merge($this->hiddenProperties, $hidden);
+        $this->hiddenProperties = \array_merge($this->hiddenProperties, $hidden);
     }
 
     /**

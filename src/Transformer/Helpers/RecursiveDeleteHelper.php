@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Api\Transformer\Helpers;
 
 use NilPortugues\Serializer\Serializer;
@@ -28,7 +29,7 @@ final class RecursiveDeleteHelper
         self::unsetKeys($array, $unwantedKey);
 
         foreach ($array as &$value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 self::deleteKeys($value, $unwantedKey);
             }
         }
@@ -51,7 +52,7 @@ final class RecursiveDeleteHelper
         foreach ($array as $key => &$value) {
             if (!in_array($key, $deletions, true)) {
                 $newArray[$key] = $value;
-                if (is_array($newArray[$key])) {
+                if (\is_array($newArray[$key])) {
                     self::deleteProperties($mappings, $newArray[$key], $typeKey);
                 }
             }
@@ -67,7 +68,7 @@ final class RecursiveDeleteHelper
      */
     public static function deleteProperties(array &$mappings, array &$array, $typeKey)
     {
-        if (array_key_exists(Serializer::CLASS_IDENTIFIER_KEY, $array)) {
+        if (\array_key_exists(Serializer::CLASS_IDENTIFIER_KEY, $array)) {
             $newArray = [];
 
             self::deleteMatchedClassProperties($mappings, $array, $typeKey, $newArray);
@@ -87,7 +88,7 @@ final class RecursiveDeleteHelper
     private static function deleteMatchedClassProperties(array &$mappings, array &$array, $typeKey, array &$newArray)
     {
         $type = $array[Serializer::CLASS_IDENTIFIER_KEY];
-        if (is_scalar($type) && $type === $typeKey) {
+        if (\is_scalar($type) && $type === $typeKey) {
             $deletions = $mappings[$typeKey]->getHiddenProperties();
             if (!empty($deletions)) {
                 self::deleteNextLevelProperties($mappings, $array, $typeKey, $deletions, $newArray);
@@ -102,7 +103,7 @@ final class RecursiveDeleteHelper
     private static function unsetKeys(array &$array, array &$unwantedKey)
     {
         foreach ($unwantedKey as $key) {
-            if (array_key_exists($key, $array)) {
+            if (\array_key_exists($key, $array)) {
                 unset($array[$key]);
             }
         }

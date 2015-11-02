@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Api\Transformer\Helpers;
 
 use NilPortugues\Serializer\Serializer;
@@ -35,7 +36,7 @@ class RecursiveRenamerHelper
             $key = (!empty($replacements[$key])) ? $replacements[$key] : $key;
             $newArray[$key] = $value;
 
-            if (is_array($newArray[$key])) {
+            if (\is_array($newArray[$key])) {
                 self::renameKeyValue($mappings, $newArray[$key], $typeKey);
             }
         }
@@ -48,7 +49,7 @@ class RecursiveRenamerHelper
      */
     public static function renameKeyValue(array &$mappings, array &$array, $typeKey)
     {
-        if (array_key_exists(Serializer::CLASS_IDENTIFIER_KEY, $array)) {
+        if (\array_key_exists(Serializer::CLASS_IDENTIFIER_KEY, $array)) {
             $newArray = [];
             $type = $array[Serializer::CLASS_IDENTIFIER_KEY];
 
@@ -69,7 +70,7 @@ class RecursiveRenamerHelper
      */
     private static function renameMatchedClassKeys(array &$mappings, array &$array, $typeKey, $type, array &$newArray)
     {
-        if (is_scalar($type) && $type === $typeKey) {
+        if (\is_scalar($type) && $type === $typeKey) {
             $replacements = $mappings[$typeKey]->getAliasedProperties();
             if (!empty($replacements)) {
                 self::renameKeys($mappings, $array, $typeKey, $replacements, $newArray);

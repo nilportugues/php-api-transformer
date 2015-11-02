@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Api\Transformer\Helpers;
 
 use NilPortugues\Serializer\Serializer;
@@ -23,8 +24,8 @@ final class RecursiveFormatterHelper
      */
     public static function namespaceAsArrayKey($key)
     {
-        $keys = explode('\\', $key);
-        $className = end($keys);
+        $keys = \explode('\\', $key);
+        $className = \end($keys);
 
         return self::camelCaseToUnderscore($className);
     }
@@ -43,7 +44,7 @@ final class RecursiveFormatterHelper
 
         foreach ($idProperties as &$propertyName) {
             $values[] = self::getIdValue($value[$propertyName]);
-            $propertyName = sprintf('{%s}', $propertyName);
+            $propertyName = \sprintf('{%s}', $propertyName);
         }
         self::flattenObjectsWithSingleKeyScalars($values);
 
@@ -60,7 +61,7 @@ final class RecursiveFormatterHelper
     {
         $idProperties = [];
 
-        if (is_scalar($type) && !empty($mappings[$type])) {
+        if (\is_scalar($type) && !empty($mappings[$type])) {
             $idProperties = $mappings[$type]->getIdProperties();
         }
 
@@ -75,7 +76,7 @@ final class RecursiveFormatterHelper
     public static function getIdValue(array $id)
     {
         self::formatScalarValues($id);
-        if (is_array($id)) {
+        if (\is_array($id)) {
             RecursiveDeleteHelper::deleteKeys($id, [Serializer::CLASS_IDENTIFIER_KEY]);
         }
 
@@ -91,7 +92,7 @@ final class RecursiveFormatterHelper
     {
         $array = self::arrayToScalarValue($array);
 
-        if (is_array($array) && !array_key_exists(Serializer::SCALAR_VALUE, $array)) {
+        if (\is_array($array) && !array_key_exists(Serializer::SCALAR_VALUE, $array)) {
             self::loopScalarValues($array, 'formatScalarValues');
         }
     }
@@ -103,11 +104,11 @@ final class RecursiveFormatterHelper
      */
     public static function flattenObjectsWithSingleKeyScalars(array &$array)
     {
-        if (1 === count($array) && is_scalar(end($array))) {
-            $array = array_pop($array);
+        if (1 === \count($array) && \is_scalar(\end($array))) {
+            $array = \array_pop($array);
         }
 
-        if (is_array($array)) {
+        if (\is_array($array)) {
             self::loopScalarValues($array, 'flattenObjectsWithSingleKeyScalars');
         }
     }
@@ -119,7 +120,7 @@ final class RecursiveFormatterHelper
      */
     private static function arrayToScalarValue(array &$array)
     {
-        if (array_key_exists(Serializer::SCALAR_VALUE, $array)) {
+        if (\array_key_exists(Serializer::SCALAR_VALUE, $array)) {
             $array = $array[Serializer::SCALAR_VALUE];
         }
 
@@ -133,7 +134,7 @@ final class RecursiveFormatterHelper
     private static function loopScalarValues(array &$array, $method)
     {
         foreach ($array as $key => &$value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 if (!empty($value)) {
                     self::$method($value);
                 } else {
@@ -153,12 +154,12 @@ final class RecursiveFormatterHelper
      */
     public static function camelCaseToUnderscore($camel, $splitter = '_')
     {
-        $camel = preg_replace(
+        $camel = \preg_replace(
             '/(?!^)[[:upper:]][[:lower:]]/',
             '$0',
-            preg_replace('/(?!^)[[:upper:]]+/', $splitter.'$0', $camel)
+            \preg_replace('/(?!^)[[:upper:]]+/', $splitter.'$0', $camel)
         );
 
-        return strtolower($camel);
+        return \strtolower($camel);
     }
 }

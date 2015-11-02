@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Api\Transformer\Helpers;
 
 use NilPortugues\Serializer\Serializer;
@@ -26,7 +27,7 @@ final class RecursiveFilterHelper
      */
     public static function deletePropertiesNotInFilter(array &$mappings, array &$array, $typeKey)
     {
-        if (array_key_exists(Serializer::CLASS_IDENTIFIER_KEY, $array)) {
+        if (\array_key_exists(Serializer::CLASS_IDENTIFIER_KEY, $array)) {
             $newArray = [];
             $type = $array[Serializer::CLASS_IDENTIFIER_KEY];
 
@@ -52,7 +53,7 @@ final class RecursiveFilterHelper
         $type,
         array &$newArray
     ) {
-        if (is_scalar($type) && $type === $typeKey) {
+        if (\is_scalar($type) && $type === $typeKey) {
             $keepKeys = $mappings[$typeKey]->getFilterKeys();
             $idProperties = $mappings[$typeKey]->getIdProperties();
 
@@ -81,7 +82,7 @@ final class RecursiveFilterHelper
         foreach ($array as $key => &$value) {
             if (self::isPreservableKey($key, $keepKeys, $idProperties)) {
                 $newArray[$key] = $value;
-                if (is_array($newArray[$key])) {
+                if (\is_array($newArray[$key])) {
                     self::deletePropertiesNotInFilter($mappings, $newArray[$key], $typeKey);
                 }
             }
@@ -98,7 +99,7 @@ final class RecursiveFilterHelper
     private static function isPreservableKey($key, $keepKeys, $idProperties)
     {
         return $key == Serializer::CLASS_IDENTIFIER_KEY
-        || (in_array($key, $keepKeys, true)
-            || in_array($key, $idProperties, true));
+        || (\in_array($key, $keepKeys, true)
+            || \in_array($key, $idProperties, true));
     }
 }

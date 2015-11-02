@@ -77,7 +77,7 @@ abstract class Transformer implements StrategyInterface
      */
     public function unserialize($value)
     {
-        throw new TransformerException(sprintf('%s does not perform unserializations.', __CLASS__));
+        throw new TransformerException(\sprintf('%s does not perform unserializations.', __CLASS__));
     }
 
     /**
@@ -141,7 +141,7 @@ abstract class Transformer implements StrategyInterface
             $underscoreKey = RecursiveFormatterHelper::camelCaseToUnderscore($key);
             $newArray[$underscoreKey] = $value;
 
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $this->recursiveSetKeysToUnderScore($newArray[$underscoreKey]);
             }
         }
@@ -153,7 +153,7 @@ abstract class Transformer implements StrategyInterface
      */
     protected function buildLinks()
     {
-        $links = array_filter(
+        $links = \array_filter(
             [
                 self::SELF_LINK => $this->getSelfUrl(),
                 self::FIRST_LINK => $this->getFirstUrl(),
@@ -266,7 +266,7 @@ abstract class Transformer implements StrategyInterface
      */
     protected function getResponseAdditionalLinks(array $copy, $type)
     {
-        if (is_scalar($type) && !empty($this->mappings[$type])) {
+        if (\is_scalar($type) && !empty($this->mappings[$type])) {
             $otherUrls = $this->mappings[$type]->getUrls();
             list($idValues, $idProperties) = RecursiveFormatterHelper::getIdPropertyAndValues(
                 $this->mappings,
@@ -274,7 +274,7 @@ abstract class Transformer implements StrategyInterface
                 $type
             );
 
-            return str_replace($idProperties, $idValues, $otherUrls);
+            return \str_replace($idProperties, $idValues, $otherUrls);
         }
 
         return [];
@@ -289,7 +289,7 @@ abstract class Transformer implements StrategyInterface
     {
         $array = self::arrayToScalarValue($array);
 
-        if (is_array($array) && !array_key_exists(Serializer::SCALAR_VALUE, $array)) {
+        if (\is_array($array) && !array_key_exists(Serializer::SCALAR_VALUE, $array)) {
             self::loopScalarValues($array, 'formatScalarValues');
         }
     }
@@ -301,7 +301,7 @@ abstract class Transformer implements StrategyInterface
      */
     protected static function arrayToScalarValue(array &$array)
     {
-        if (array_key_exists(Serializer::SCALAR_VALUE, $array)) {
+        if (\array_key_exists(Serializer::SCALAR_VALUE, $array)) {
             $array = $array[Serializer::SCALAR_VALUE];
         }
 
@@ -315,7 +315,7 @@ abstract class Transformer implements StrategyInterface
     protected static function loopScalarValues(array &$array, $method)
     {
         foreach ($array as $propertyName => &$value) {
-            if (is_array($value) && self::LINKS_KEY !== $propertyName) {
+            if (\is_array($value) && self::LINKS_KEY !== $propertyName) {
                 self::$method($value);
             }
         }
@@ -328,11 +328,11 @@ abstract class Transformer implements StrategyInterface
      */
     protected static function flattenObjectsWithSingleKeyScalars(array &$array)
     {
-        if (1 === count($array) && is_scalar(end($array))) {
-            $array = array_pop($array);
+        if (1 === \count($array) && \is_scalar(\end($array))) {
+            $array = \array_pop($array);
         }
 
-        if (is_array($array)) {
+        if (\is_array($array)) {
             self::loopScalarValues($array, 'flattenObjectsWithSingleKeyScalars');
         }
     }

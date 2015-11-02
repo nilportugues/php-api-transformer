@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Api\Mapping;
 
 use NilPortugues\Api\Mappings\ApiMapping;
@@ -50,14 +51,14 @@ class MappingFactory
         $className = '\\'.ltrim($className, '\\');
         if (!class_exists($className, true)) {
             throw new MappingException(
-                sprintf('Provided class %s could not be loaded.', $className)
+                \sprintf('Provided class %s could not be loaded.', $className)
             );
         }
         $instance = new $className();
 
-        if (!in_array(ApiMapping::class, class_implements($instance, true))) {
+        if (!in_array(ApiMapping::class, \class_implements($instance, true))) {
             throw new MappingException(
-                sprintf('Class %s must implement %s.', ltrim($className, '\\'), ApiMapping::class)
+                \sprintf('Class %s must implement %s.', \ltrim($className, '\\'), ApiMapping::class)
             );
         }
 
@@ -70,11 +71,11 @@ class MappingFactory
             static::URLS_KEY => $instance->getUrls(),
         ];
 
-        if (in_array(HalJsonMapping::class, class_implements($instance, true))) {
+        if (\in_array(HalJsonMapping::class, \class_implements($instance, true))) {
             $mappedClass[static::CURIES_KEY] = $instance->getCuries();
         }
 
-        if (in_array(JsonApiMapping::class, class_implements($instance, true))) {
+        if (\in_array(JsonApiMapping::class, \class_implements($instance, true))) {
             $mappedClass[static::RELATIONSHIPS_KEY] = $instance->getRelationships();
         }
 
@@ -167,10 +168,10 @@ class MappingFactory
     {
         if (false === empty($mappedClass[static::ALIASED_PROPERTIES_KEY])) {
             $mapping->setPropertyNameAliases($mappedClass[static::ALIASED_PROPERTIES_KEY]);
-            foreach (array_keys($mapping->getAliasedProperties()) as $propertyName) {
-                if (false === in_array($propertyName, static::getClassProperties($className), true)) {
+            foreach (\array_keys($mapping->getAliasedProperties()) as $propertyName) {
+                if (false === \in_array($propertyName, static::getClassProperties($className), true)) {
                     throw new MappingException(
-                        sprintf(
+                        \sprintf(
                             'Could not alias property %s in class %s because it does not exist.',
                             $propertyName,
                             $className
@@ -203,11 +204,11 @@ class MappingFactory
 
             if ($parentClass = $ref->getParentClass()) {
                 $parentPropsArr = static::getClassProperties($parentClass->getName());
-                if (count($parentPropsArr) > 0) {
-                    $properties = array_merge($parentPropsArr, $properties);
+                if (\count($parentPropsArr) > 0) {
+                    $properties = \array_merge($parentPropsArr, $properties);
                 }
             }
-            static::$classProperties[$className] = array_keys($properties);
+            static::$classProperties[$className] = \array_keys($properties);
         }
 
         return static::$classProperties[$className];
@@ -225,9 +226,9 @@ class MappingFactory
         if (false === empty($mappedClass[static::HIDE_PROPERTIES_KEY])) {
             $mapping->setHiddenProperties($mappedClass[static::HIDE_PROPERTIES_KEY]);
             foreach ($mapping->getHiddenProperties() as $propertyName) {
-                if (false === in_array($propertyName, static::getClassProperties($className), true)) {
+                if (false === \in_array($propertyName, static::getClassProperties($className), true)) {
                     throw new MappingException(
-                        sprintf(
+                        \sprintf(
                             'Could not hide property %s in class %s because it does not exist.',
                             $propertyName,
                             $className
@@ -249,9 +250,9 @@ class MappingFactory
     {
         if (!empty($mappedClass[static::RELATIONSHIPS_KEY])) {
             foreach ($mappedClass[static::RELATIONSHIPS_KEY] as $propertyName => $urls) {
-                if (false === in_array($propertyName, static::getClassProperties($className))) {
+                if (false === \in_array($propertyName, static::getClassProperties($className))) {
                     throw new MappingException(
-                        sprintf(
+                        \sprintf(
                             'Could not find property %s in class %s because it does not exist.',
                             $propertyName,
                             $className

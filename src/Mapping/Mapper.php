@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Api\Mapping;
 
 /**
@@ -31,7 +32,7 @@ class Mapper
      */
     public function __construct(array $mappings = null)
     {
-        if (is_array($mappings)) {
+        if (\is_array($mappings)) {
             foreach ($mappings as $mappedClass) {
                 $mapping = $this->buildMapping($mappedClass);
 
@@ -48,7 +49,7 @@ class Mapper
      */
     protected function buildMapping($mappedClass)
     {
-        return (is_string($mappedClass) && class_exists($mappedClass, true)) ?
+        return (\is_string($mappedClass) && \class_exists($mappedClass, true)) ?
             MappingFactory::fromClass($mappedClass) :
             MappingFactory::fromArray($mappedClass);
     }
@@ -67,20 +68,5 @@ class Mapper
     public function setClassMap(array $array)
     {
         $this->classMap = $array;
-    }
-
-    /**
-     * @param string $firstClass
-     * @param string $secondClass
-     *
-     * @return bool
-     */
-    private function isSubclass($firstClass, $secondClass)
-    {
-        if ($firstClass === $secondClass) {
-            return false;
-        }
-
-        return is_subclass_of($firstClass, $secondClass, true) || is_subclass_of($secondClass, $firstClass, true);
     }
 }
