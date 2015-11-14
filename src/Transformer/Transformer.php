@@ -336,4 +336,12 @@ abstract class Transformer implements StrategyInterface
             self::loopScalarValues($array, 'flattenObjectsWithSingleKeyScalars');
         }
     }
+
+    /**
+     * @return \NilPortugues\Api\Mapping\Mapping[]
+     */
+    public function getMappings()
+    {
+        return $this->mappings;
+    }    
 }
