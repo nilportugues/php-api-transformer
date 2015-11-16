@@ -71,7 +71,7 @@ class Mapping
     public function __construct($className, $resourceUrlPattern = null, array $idProperties = [])
     {
         $this->className = (string) $className;
-        $this->resourceUrlPattern = (string) $resourceUrlPattern;
+        $this->resourceUrlPattern = $resourceUrlPattern;
         $this->idProperties = $idProperties;
     }
 
