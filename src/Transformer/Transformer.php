@@ -274,7 +274,14 @@ abstract class Transformer implements StrategyInterface
                 $type
             );
 
-            return \str_replace($idProperties, $idValues, $otherUrls);
+            $replacedUrls = \str_replace($idProperties, $idValues, $otherUrls);
+            foreach ($replacedUrls as $key => $value) {
+                if ($otherUrls[$key] === $value && false !== strpos($value, '{')) {
+                    unset($replacedUrls[$key]);
+                }
+            }
+
+            return $replacedUrls;
         }
 
         return [];
@@ -343,5 +350,5 @@ abstract class Transformer implements StrategyInterface
     public function getMappings()
     {
         return $this->mappings;
-    }    
+    }
 }
