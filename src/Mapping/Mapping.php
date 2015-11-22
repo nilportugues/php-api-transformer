@@ -64,6 +64,11 @@ class Mapping
     private $curies = [];
 
     /**
+     * @var array
+     */
+    private $properties = [];
+
+    /**
      * @param       $className
      * @param null  $resourceUrlPattern
      * @param array $idProperties
@@ -161,6 +166,19 @@ class Mapping
         foreach ($this->aliasedProperties as $propertyName => $propertyAlias) {
             $this->updatePropertyMappings($propertyName, $propertyAlias);
         }
+    }
+
+    /**
+     * @param $properties
+     */
+    public function setProperties(array $properties)
+    {
+        $this->properties = $properties;
+    }
+
+    public function getProperties()
+    {
+        return $this->properties;
     }
 
     /**

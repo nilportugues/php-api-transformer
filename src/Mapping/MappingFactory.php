@@ -102,6 +102,7 @@ class MappingFactory
         static::setHideProperties($mappedClass, $mapping, $className);
         static::setRelationships($mappedClass, $mapping, $className);
         static::setCuries($mappedClass, $mapping);
+        static::setProperties($mapping, $className);
 
         $otherUrls = static::getOtherUrls($mappedClass);
         if (!empty($otherUrls)) {
@@ -274,6 +275,17 @@ class MappingFactory
         if (false === empty($mappedClass[static::CURIES_KEY])) {
             $mapping->setCuries($mappedClass[static::CURIES_KEY]);
         }
+    }
+
+    /**
+     * @param Mapping $mapping
+     * @param string  $className
+     *
+     * @throws MappingException
+     */
+    protected static function setProperties(Mapping $mapping, $className)
+    {
+        $mapping->setProperties(static::getClassProperties($className));
     }
 
     /**
