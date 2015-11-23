@@ -8,11 +8,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace NilPortugues\Api\Mapping;
 
 use NilPortugues\Api\Mappings\ApiMapping;
-use NilPortugues\Api\Mappings\HalJsonMapping;
+use NilPortugues\Api\Mappings\HalMapping;
 use NilPortugues\Api\Mappings\JsonApiMapping;
 use ReflectionClass;
 
@@ -47,7 +46,7 @@ class MappingFactory
      */
     public static function fromClass($className)
     {
-        /* @var ApiMapping|HalJsonMapping|JsonApiMapping $instance */
+        /* @var ApiMapping|HalMapping|JsonApiMapping $instance */
         $className = '\\'.ltrim($className, '\\');
         if (!class_exists($className, true)) {
             throw new MappingException(
@@ -71,7 +70,7 @@ class MappingFactory
             static::URLS_KEY => $instance->getUrls(),
         ];
 
-        if (\in_array(HalJsonMapping::class, \class_implements($instance, true))) {
+        if (\in_array(HalMapping::class, \class_implements($instance, true))) {
             $mappedClass[static::CURIES_KEY] = $instance->getCuries();
         }
 

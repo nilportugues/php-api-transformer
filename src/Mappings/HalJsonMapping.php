@@ -2,12 +2,9 @@
 
 namespace NilPortugues\Api\Mappings;
 
-interface HalJsonMapping extends ApiMapping
+/**
+ * @deprecated Use \NilPortugues\Api\Mappings\HalMapping instead.
+ */
+interface HalJsonMapping extends HalMapping
 {
-    /**
-     * Returns an array of curies.
-     *
-     * @return array
-     */
-    public function getCuries();
 }

@@ -351,4 +351,32 @@ abstract class Transformer implements StrategyInterface
     {
         return $this->mappings;
     }
+
+    /**
+     * @param string $alias
+     *
+     * @return Mapping|null
+     */
+    public function getMappingByAlias($alias)
+    {
+        foreach ($this->mappings as $mapping) {
+            if (0 === strcasecmp($alias, $mapping->getClassAlias())) {
+                return $mapping;
+            }
+        }
+
+        return;
+    }
+
+    /**
+     * @param string $className
+     *
+     * @return Mapping|null
+     */
+    public function getMappingByClassName($className)
+    {
+        $className = ltrim($className, '\\');
+
+        return (!empty($this->mappings[$className])) ? $this->mappings[$className] : null;
+    }
 }
