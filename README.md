@@ -52,7 +52,7 @@ While I discourage having 2 styles for mapping it is well possible to have them 
 
 ```php
 use NilPortugues\Api\Mapping\Mapper;
-use NilPortugues\AcmeProject\Infrastructure\Mappings\Api\PostApiMapping;
+use NilPortugues\AcmeProject\Infrastructure\Api\Mappings\PostApiMapping;
 
 $arrayConfig = include 'mappings.php';
 $classConfig = [
@@ -84,7 +84,7 @@ As expected you may implement many interfaces to support multiple API formats.
 ```php
 <?php
 
-namespace NilPortugues\AcmeProject\Infrastructure\Mappings\Api;
+namespace NilPortugues\AcmeProject\Infrastructure\Api\Mappings;
 
 use NilPortugues\AcmeProject\Blog\Domain\Post;
 use NilPortugues\Api\Mappings\HalMapping;
