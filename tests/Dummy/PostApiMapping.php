@@ -2,11 +2,11 @@
 
 namespace NilPortugues\Tests\Api\Dummy;
 
-use NilPortugues\Api\Mappings\HalJsonMapping;
+use NilPortugues\Api\Mappings\HalMapping;
 use NilPortugues\Api\Mappings\JsonApiMapping;
 use NilPortugues\Tests\Api\Dummy\ComplexObject\Post;
 
-class PostApiMapping implements JsonApiMapping, HalJsonMapping
+class PostApiMapping implements JsonApiMapping, HalMapping
 {
     /**
      * {@inheritdoc}

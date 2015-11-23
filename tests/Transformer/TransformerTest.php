@@ -8,14 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace NilPortugues\Tests\Api\Transformer;
 
 use NilPortugues\Api\Mapping\Mapper;
 use NilPortugues\Api\Transformer\TransformerException;
+use NilPortugues\Tests\Api\Dummy\ComplexObject\Post;
 use NilPortugues\Tests\Api\Dummy\DummyTransformer;
+use NilPortugues\Tests\Api\Dummy\PostApiMapping;
+use PHPUnit_Framework_TestCase;
 
-class TransformerTest extends \PHPUnit_Framework_TestCase
+class TransformerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var DummyTransformer
@@ -27,7 +29,46 @@ class TransformerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->transformer = new DummyTransformer(new Mapper());
+        $mappings = [PostApiMapping::class];
+
+        $this->transformer = new DummyTransformer(new Mapper($mappings));
+    }
+
+    public function testGetMappings()
+    {
+        $this->assertNotEmpty($this->transformer->getMappings());
+    }
+
+    public function testGetMappingByAlias()
+    {
+        $this->assertEquals(
+            Post::class,
+            $this->transformer->getMappingByAlias('Message')->getClassName()
+        );
+    }
+
+    public function testGetMappingByAliasReturnsNull()
+    {
+        $this->assertEquals(
+            null,
+            $this->transformer->getMappingByAlias('Date')
+        );
+    }
+
+    public function testGetMappingByClassName()
+    {
+        $this->assertEquals(
+            Post::class,
+            $this->transformer->getMappingByClassName(Post::class)->getClassName()
+        );
+    }
+
+    public function testGetMappingByClassNameReturnsNull()
+    {
+        $this->assertEquals(
+            null,
+            $this->transformer->getMappingByClassName(PHPUnit_Framework_TestCase::class)
+        );
     }
 
     /**
