@@ -56,6 +56,12 @@ final class RecursiveFilterHelper
             $keepKeys = $mappings[$typeKey]->getFilterKeys();
             $idProperties = $mappings[$typeKey]->getIdProperties();
 
+            $keepKeys = str_replace(
+                array_values($mappings[$typeKey]->getAliasedProperties()),
+                array_keys($mappings[$typeKey]->getAliasedProperties()),
+                $keepKeys
+            );
+
             if (!empty($keepKeys)) {
                 self::filterKeys($mappings, $array, $typeKey, $newArray, $keepKeys, $idProperties);
             }
