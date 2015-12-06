@@ -69,6 +69,11 @@ class Mapping
     private $properties = [];
 
     /**
+     * @var array
+     */
+    private $included = [];
+
+    /**
      * @param       $className
      * @param null  $resourceUrlPattern
      * @param array $idProperties
@@ -176,6 +181,9 @@ class Mapping
         $this->properties = $properties;
     }
 
+    /**
+     * @return array
+     */
     public function getProperties()
     {
         return $this->properties;
@@ -362,8 +370,41 @@ class Mapping
         $this->curies = $curies;
     }
 
+    /**
+     * @return array
+     */
     public function getCuries()
     {
         return $this->curies;
+    }
+
+    /**
+     * Used by JSON API included resource filtering.
+     *
+     * @param $resource
+     */
+    public function addIncludedResource($resource)
+    {
+        $this->included[] = $resource;
+    }
+
+    /**
+     * Returns the allowed included resources.
+     *
+     * @return array
+     */
+    public function getIncludedResources()
+    {
+        return $this->included;
+    }
+
+    /**
+     * Returns true if included resource filtering has been set, false otherwise.
+     *
+     * @return bool
+     */
+    public function isFilteringIncludedResources()
+    {
+        return (empty($this->included)) ? false : true;
     }
 }
