@@ -71,7 +71,12 @@ class Mapping
     /**
      * @var array
      */
-    private $included = [];
+    private $includedKeys = [];
+
+    /**
+     * @var bool
+     */
+    private $filteringIncluded = false;
 
     /**
      * @param       $className
@@ -378,14 +383,15 @@ class Mapping
         return $this->curies;
     }
 
+
     /**
      * Used by JSON API included resource filtering.
      *
      * @param $resource
      */
-    public function addIncludedResource($resource)
-    {
-        $this->included[] = $resource;
+    public function addIncludedResource($resource) {
+
+        $this->includedKeys[] = $resource;
     }
 
     /**
@@ -395,7 +401,16 @@ class Mapping
      */
     public function getIncludedResources()
     {
-        return $this->included;
+        return $this->includedKeys;
+    }
+
+
+    /**
+     * @param bool $filtering
+     */
+    public function filteringIncludedResources($filtering = true)
+    {
+        $this->filteringIncluded = $filtering;
     }
 
     /**
@@ -405,6 +420,6 @@ class Mapping
      */
     public function isFilteringIncludedResources()
     {
-        return (empty($this->included)) ? false : true;
+        return $this->filteringIncluded;
     }
 }
