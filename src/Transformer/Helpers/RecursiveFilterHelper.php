@@ -85,7 +85,9 @@ final class RecursiveFilterHelper
         array &$idProperties
     ) {
         foreach ($array as $key => &$value) {
-            if (self::isPreservableKey($key, $keepKeys, $idProperties)) {
+            if (self::isPreservableKey($key, $keepKeys, $idProperties) 
+                || false === in_array($key, $mappings[$typeKey]->getProperties())
+            ) {
                 $newArray[$key] = $value;
                 if (\is_array($newArray[$key])) {
                     self::deletePropertiesNotInFilter($mappings, $newArray[$key], $typeKey);
