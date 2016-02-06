@@ -2,7 +2,7 @@
 
 [![Build Status]
 (https://travis-ci.org/nilportugues/php-api-transformer.svg)]
-(https://travis-ci.org/nilportugues/php-api-transformer) [![Coverage Status](https://coveralls.io/repos/nilportugues/api-transformer/badge.svg?branch=master&service=github)](https://coveralls.io/github/nilportugues/api-transformer?branch=master) [![Scrutinizer Code Quality]
+(https://travis-ci.org/nilportugues/php-api-transformer) [![Coverage Status](https://coveralls.io/repos/nilportugues/php-api-transformer/badge.svg?branch=master&service=github)](https://coveralls.io/github/nilportugues/php-api-transformer?branch=master) [![Scrutinizer Code Quality]
 (https://scrutinizer-ci.com/g/nilportugues/api-transformer/badges/quality-score.png?b=master)]
 (https://scrutinizer-ci.com/g/nilportugues/api-transformer/?branch=master) [![SensioLabsInsight]
 (https://insight.sensiolabs.com/projects/b4e5056d-c552-407e-ae21-2da685e07c06/mini.png)]
