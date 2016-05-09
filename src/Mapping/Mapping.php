@@ -76,7 +76,7 @@ class Mapping
     /**
      * @var bool
      */
-    private $filteringIncluded = false;
+    private $filteringIncluded = true;
 
     /**
      * @param       $className
