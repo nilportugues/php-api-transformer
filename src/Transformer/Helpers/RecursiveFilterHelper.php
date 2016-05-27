@@ -104,7 +104,6 @@ final class RecursiveFilterHelper
     protected static function isPreservableKey(string $key, array $keepKeys, array $idProperties) : bool
     {
         return $key == Serializer::CLASS_IDENTIFIER_KEY
-        || (\in_array($key, $keepKeys, true)
-            || \in_array($key, $idProperties, true));
+        || (\in_array($key, $keepKeys, true) || \in_array($key, $idProperties, true));
     }
 }

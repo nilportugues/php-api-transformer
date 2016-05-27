@@ -65,8 +65,13 @@ class RecursiveRenamerHelper
      * @param string                              $type
      * @param array                               $newArray
      */
-    protected static function renameMatchedClassKeys(array &$mappings, array &$array, string $typeKey, string $type, array &$newArray)
-    {
+    protected static function renameMatchedClassKeys(
+        array &$mappings,
+        array &$array,
+        string $typeKey,
+        string $type,
+        array &$newArray
+    ) {
         if (\is_scalar($type) && $type === $typeKey) {
             $replacements = $mappings[$typeKey]->getAliasedProperties();
             if (!empty($replacements)) {

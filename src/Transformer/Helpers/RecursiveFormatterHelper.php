@@ -16,7 +16,8 @@ use NilPortugues\Serializer\Serializer;
 final class RecursiveFormatterHelper
 {
     /**
-     * Given a class name will return its name without the namespace and in under_score to be used as a key in an array.
+     * Given a class name will return its name without the namespace and
+     * in under_score to be used as a key in an array.
      *
      * @param string $key
      *
@@ -103,7 +104,8 @@ final class RecursiveFormatterHelper
     }
 
     /**
-     * Replaces the Serializer array structure representing scalar values to the actual scalar value using recursion.
+     * Replaces the Serializer array structure representing scalar
+     * values to the actual scalar value using recursion.
      *
      * @param array $array
      */

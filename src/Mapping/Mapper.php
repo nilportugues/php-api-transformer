@@ -52,7 +52,7 @@ class Mapper
      */
     public function getClassMap() : array
     {
-        return $this->classMap;
+        return (array) $this->classMap;
     }
 
     /**

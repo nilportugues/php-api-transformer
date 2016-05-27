@@ -95,8 +95,12 @@ final class RecursiveDeleteHelper
      * @param string                              $typeKey
      * @param array                               $newArray
      */
-    protected static function deleteMatchedClassProperties(array &$mappings, array &$array, string $typeKey, array &$newArray)
-    {
+    protected static function deleteMatchedClassProperties(
+        array &$mappings,
+        array &$array,
+        string $typeKey,
+        array &$newArray
+    ) {
         $type = $array[Serializer::CLASS_IDENTIFIER_KEY];
         if (\is_scalar($type) && $type === $typeKey) {
             $deletions = $mappings[$typeKey]->getHiddenProperties();

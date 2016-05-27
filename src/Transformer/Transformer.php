@@ -266,7 +266,8 @@ abstract class Transformer implements StrategyInterface
     }
 
     /**
-     * Replaces the Serializer array structure representing scalar values to the actual scalar value using recursion.
+     * Replaces the Serializer array structure representing 
+     * scalar values to the actual scalar value using recursion.
      *
      * @param array $array
      */
@@ -307,7 +308,8 @@ abstract class Transformer implements StrategyInterface
     }
 
     /**
-     * Simplifies the data structure by removing an array level if data is scalar and has one element in array.
+     * Simplifies the data structure by removing an array level 
+     * if data is scalar and has one element in array.
      *
      * @param array $array
      */
