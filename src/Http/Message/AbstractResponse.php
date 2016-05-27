@@ -8,38 +8,33 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Api\Http\Message;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use Zend\Diactoros\Response;
 
-/**
- * Class AbstractResponse.
- */
 abstract class AbstractResponse implements ResponseInterface
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $httpCode = 0;
 
-    /**
-     * @var \Zend\Diactoros\Response
-     */
+    /** @var AbstractResponse */
     protected $response;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $headers = [
         'Content-type' => 'application/json; charset=utf-8',
         'Cache-Control' => 'private, max-age=0, must-revalidate',
     ];
 
     /**
+     * AbstractResponse constructor.
+     *
      * @param string $json
      */
-    public function __construct($json)
+    public function __construct(string $json)
     {
         $this->response = self::instance($json, $this->httpCode, $this->headers);
     }
@@ -51,9 +46,9 @@ abstract class AbstractResponse implements ResponseInterface
      *
      * @return AbstractResponse
      */
-    protected function instance($body, $status = 200, array $headers = [])
+    protected function instance(string $body, int $status = 200, array $headers = []) : AbstractResponse
     {
-        $response = new \Zend\Diactoros\Response('php://memory', $status, $headers);
+        $response = new Response('php://memory', $status, $headers);
         $response->getBody()->write($body);
 
         return $response;

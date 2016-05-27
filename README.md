@@ -30,9 +30,8 @@ Currently the following transformers make use of this library as foundation:
 
 - [nilportugues/json](https://github.com/nilportugues/json-transformer)
 - [nilportugues/jsend](https://github.com/nilportugues/jsend-transformer)
-- [nilportugues/haljson](https://github.com/nilportugues/hal-json-transformer)
+- [nilportugues/hal](https://github.com/nilportugues/hal-transformer)
 - [nilportugues/json-api](https://github.com/nilportugues/jsonapi-transformer)
-
 
 
 
@@ -100,7 +99,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getClass()
+    public function getClass() : string
     {
         return Post::class;
     }
@@ -108,7 +107,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias() : string
     {
         return 'Posting'; //If none is used 'Post' will be used instead.
     }
@@ -116,7 +115,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getAliasedProperties()
+    public function getAliasedProperties() : array
     {
         return [
             'title' => 'headline',
@@ -127,7 +126,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getHideProperties()
+    public function getHideProperties() : array
     {
         return [
            'comments',
@@ -137,7 +136,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getIdProperties()
+    public function getIdProperties() : array
     {
         return [
             'postId',
@@ -147,7 +146,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getUrls()
+    public function getUrls() : array
     {
         return [
           // Mandatory
@@ -162,7 +161,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
      *
      * @return array
      */
-    public function getCuries()
+    public function getCuries() : array
     {
         return [
             'name' => 'example',
@@ -173,7 +172,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getRelationships()
+    public function getRelationships() : array
     {
         return [
             'author' => [

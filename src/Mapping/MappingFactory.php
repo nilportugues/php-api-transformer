@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Api\Mapping;
 
 use NilPortugues\Api\Mappings\ApiMapping;
@@ -15,9 +16,6 @@ use NilPortugues\Api\Mappings\HalMapping;
 use NilPortugues\Api\Mappings\JsonApiMapping;
 use ReflectionClass;
 
-/**
- * Class MappingFactory.
- */
 class MappingFactory
 {
     const CLASS_KEY = 'class';
@@ -30,9 +28,7 @@ class MappingFactory
     const RELATIONSHIPS_KEY = 'relationships';
     const SELF_KEY = 'self';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected static $classProperties = [];
 
     /**
@@ -44,9 +40,9 @@ class MappingFactory
      *
      * @since 2.0.0
      */
-    public static function fromClass($className)
+    public static function fromClass(string $className) : Mapping
     {
-        /* @var ApiMapping|HalMapping|JsonApiMapping $instance */
+        /* @var ApiMapping $instance */
         $className = '\\'.ltrim($className, '\\');
         if (!class_exists($className, true)) {
             throw new MappingException(
@@ -88,7 +84,7 @@ class MappingFactory
      *
      * @return Mapping
      */
-    public static function fromArray(array &$mappedClass)
+    public static function fromArray(array &$mappedClass) : Mapping
     {
         $className = static::getClass($mappedClass);
         $resourceUrl = static::getSelfUrl($mappedClass);
@@ -114,11 +110,9 @@ class MappingFactory
     /**
      * @param array $mappedClass
      *
-     * @throws MappingException
-     *
-     * @return mixed
+     * @return string
      */
-    protected static function getClass(array &$mappedClass)
+    protected static function getClass(array &$mappedClass) : string
     {
         if (empty($mappedClass[static::CLASS_KEY])) {
             throw new MappingException(
@@ -132,11 +126,9 @@ class MappingFactory
     /**
      * @param array $mappedClass
      *
-     * @throws MappingException
-     *
-     * @return mixed
+     * @return string
      */
-    protected static function getSelfUrl(array &$mappedClass)
+    protected static function getSelfUrl(array &$mappedClass) : string
     {
         if (empty($mappedClass[static::URLS_KEY][static::SELF_KEY])) {
             throw new MappingException(
@@ -150,9 +142,9 @@ class MappingFactory
     /**
      * @param array $mappedClass
      *
-     * @return mixed
+     * @return array
      */
-    protected static function getIdProperties(array &$mappedClass)
+    protected static function getIdProperties(array &$mappedClass) : array
     {
         return (!empty($mappedClass[static::ID_PROPERTIES_KEY])) ? $mappedClass[static::ID_PROPERTIES_KEY] : [];
     }
@@ -164,7 +156,7 @@ class MappingFactory
      *
      * @throws MappingException
      */
-    protected static function setAliasedProperties(array &$mappedClass, Mapping $mapping, $className)
+    protected static function setAliasedProperties(array &$mappedClass, Mapping $mapping, string $className)
     {
         if (false === empty($mappedClass[static::ALIASED_PROPERTIES_KEY])) {
             $mapping->setPropertyNameAliases($mappedClass[static::ALIASED_PROPERTIES_KEY]);
@@ -192,7 +184,7 @@ class MappingFactory
      *
      * @link http://php.net/manual/es/reflectionclass.getproperties.php#88405
      */
-    protected static function getClassProperties($className)
+    protected static function getClassProperties(string $className) : array
     {
         if (empty(static::$classProperties[$className])) {
             $ref = new ReflectionClass($className);
@@ -221,7 +213,7 @@ class MappingFactory
      *
      * @throws MappingException
      */
-    protected static function setHideProperties(array &$mappedClass, Mapping $mapping, $className)
+    protected static function setHideProperties(array &$mappedClass, Mapping $mapping, string $className)
     {
         if (false === empty($mappedClass[static::HIDE_PROPERTIES_KEY])) {
             $mapping->setHiddenProperties($mappedClass[static::HIDE_PROPERTIES_KEY]);
@@ -246,7 +238,7 @@ class MappingFactory
      *
      * @throws MappingException
      */
-    protected static function setRelationships(array &$mappedClass, Mapping $mapping, $className)
+    protected static function setRelationships(array &$mappedClass, Mapping $mapping, string $className)
     {
         if (!empty($mappedClass[static::RELATIONSHIPS_KEY])) {
             foreach ($mappedClass[static::RELATIONSHIPS_KEY] as $propertyName => $urls) {
@@ -282,7 +274,7 @@ class MappingFactory
      *
      * @throws MappingException
      */
-    protected static function setProperties(Mapping $mapping, $className)
+    protected static function setProperties(Mapping $mapping, string $className)
     {
         $mapping->setProperties(static::getClassProperties($className));
     }

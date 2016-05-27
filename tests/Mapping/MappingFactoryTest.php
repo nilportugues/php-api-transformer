@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Tests\Api\Mapping;
 
 use NilPortugues\Api\Mapping\MappingException;
@@ -33,13 +34,13 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testItCanBuildMappingsFromClassWillThrowExceptionIfAClassIsNotProvided()
     {
-        $this->setExpectedException(MappingException::class);
+        $this->expectException(MappingException::class);
         MappingFactory::fromClass('NotAClass');
     }
 
     public function testItCanBuildMappingsFromClassWillThrowExceptionIfClassDoesImplementApiMappingInterface()
     {
-        $this->setExpectedException(MappingException::class);
+        $this->expectException(MappingException::class);
         MappingFactory::fromClass('\DateTime');
     }
 
@@ -107,7 +108,7 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $this->setExpectedException(MappingException::class);
+        $this->expectException(MappingException::class);
         MappingFactory::fromArray($mappedClass);
     }
 
@@ -137,7 +138,7 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $this->setExpectedException(MappingException::class);
+        $this->expectException(MappingException::class);
         MappingFactory::fromArray($mappedClass);
     }
 
@@ -167,20 +168,20 @@ class MappingFactoryTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $this->setExpectedException(MappingException::class);
+        $this->expectException(MappingException::class);
         MappingFactory::fromArray($mappedClass);
     }
 
     public function testItWillThrowExceptionIfArrayHasNoClassKey()
     {
-        $this->setExpectedException(MappingException::class);
+        $this->expectException(MappingException::class);
         $mappedClass = [];
         MappingFactory::fromArray($mappedClass);
     }
 
     public function testItWillThrowExceptionIfArrayHasNoSelfUrlKey()
     {
-        $this->setExpectedException(MappingException::class);
+        $this->expectException(MappingException::class);
         $mappedClass = ['class' => Post::class, 'id_properties' => ['postId'], 'urls' => []];
         MappingFactory::fromArray($mappedClass);
     }

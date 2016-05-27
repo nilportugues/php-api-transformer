@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5.0",        
+        "php": ">=7.0",
         "nilportugues/serializer": "~1.1",
         "psr/http-message": "~1.0",
         "zendframework/zend-diactoros": "^1.1.0"
@@ -21,9 +21,7 @@
     "require-dev": {
         "phpunit/phpunit": "5.*",
         "fabpot/php-cs-fixer": "~1.9",
-        "nilportugues/php_backslasher": "~0.2",
-        "mmoreram/php-formatter": "dev-master",
-        "satooshi/php-coveralls": "dev-master"
+        "nilportugues/php_backslasher": "~0.2"
     },
     "autoload": {
         "psr-4": {
@@ -39,8 +37,5 @@
             "NilPortugues\\Tests\\Api\\Transformer\\": "tests/Transformer/",
             "NilPortugues\\Tests\\Api\\Dummy\\": "tests/Dummy/"
         }
-    },
-    "config": {
-        "bin-dir": "bin/"
     }
 }

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Tests\Api\Dummy;
 
 use NilPortugues\Api\Transformer\Transformer;
@@ -24,7 +25,7 @@ class DummyTransformer extends Transformer
      *
      * @return string
      */
-    public function serialize($value)
+    public function serialize($value) : string
     {
         return 'dummy: '.$value;
     }

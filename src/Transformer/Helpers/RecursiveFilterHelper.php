@@ -8,13 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Api\Transformer\Helpers;
 
 use NilPortugues\Serializer\Serializer;
 
-/**
- * Class RecursiveDeleteHelper.
- */
 final class RecursiveFilterHelper
 {
     /**
@@ -24,7 +22,7 @@ final class RecursiveFilterHelper
      * @param array                               $array
      * @param string                              $typeKey
      */
-    public static function deletePropertiesNotInFilter(array &$mappings, array &$array, $typeKey)
+    public static function deletePropertiesNotInFilter(array &$mappings, array &$array, string $typeKey)
     {
         if (\array_key_exists(Serializer::CLASS_IDENTIFIER_KEY, $array)) {
             $newArray = [];
@@ -45,11 +43,11 @@ final class RecursiveFilterHelper
      * @param string                              $type
      * @param array                               $newArray
      */
-    private static function deleteMatchedClassNotInFilterProperties(
+    protected static function deleteMatchedClassNotInFilterProperties(
         array &$mappings,
         array &$array,
-        $typeKey,
-        $type,
+        string $typeKey,
+        string $type,
         array &$newArray
     ) {
         if (\is_scalar($type) && $type === $typeKey) {
@@ -76,10 +74,10 @@ final class RecursiveFilterHelper
      * @param array  $keepKeys
      * @param array  $idProperties
      */
-    private static function filterKeys(
+    protected static function filterKeys(
         array &$mappings,
         array &$array,
-        $typeKey,
+        string $typeKey,
         array &$newArray,
         array &$keepKeys,
         array &$idProperties
@@ -97,13 +95,13 @@ final class RecursiveFilterHelper
     }
 
     /**
-     * @param $key
-     * @param $keepKeys
-     * @param $idProperties
+     * @param string $key
+     * @param array  $keepKeys
+     * @param array  $idProperties
      *
      * @return bool
      */
-    private static function isPreservableKey($key, $keepKeys, $idProperties)
+    protected static function isPreservableKey(string $key, array $keepKeys, array $idProperties) : bool
     {
         return $key == Serializer::CLASS_IDENTIFIER_KEY
         || (\in_array($key, $keepKeys, true)

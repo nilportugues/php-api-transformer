@@ -9,14 +9,14 @@ interface ApiMapping
      *
      * @return string
      */
-    public function getClass();
+    public function getClass() : string;
 
     /**
      * Returns a string representing the resource name as it will be shown after the mapping.
      *
      * @return string
      */
-    public function getAlias();
+    public function getAlias() : string;
 
     /**
      * Returns an array of properties that will be renamed.
@@ -24,26 +24,26 @@ interface ApiMapping
      *
      * @return array
      */
-    public function getAliasedProperties();
+    public function getAliasedProperties() : array;
 
     /**
      * List of properties in the class that will be ignored by the mapping.
      *
      * @return array
      */
-    public function getHideProperties();
+    public function getHideProperties() : array;
 
     /**
      * Returns an array of properties that are used as an ID value.
      *
      * @return array
      */
-    public function getIdProperties();
+    public function getIdProperties() : array;
 
     /**
      * Returns a list of URLs. This urls must have placeholders to be replaced with the getIdProperties() values.
      *
      * @return array
      */
-    public function getUrls();
+    public function getUrls() : array;
 }

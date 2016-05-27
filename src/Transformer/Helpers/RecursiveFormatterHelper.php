@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Api\Transformer\Helpers;
 
 use NilPortugues\Serializer\Serializer;
@@ -21,12 +22,31 @@ final class RecursiveFormatterHelper
      *
      * @return string
      */
-    public static function namespaceAsArrayKey($key)
+    public static function namespaceAsArrayKey(string $key) : string
     {
         $keys = \explode('\\', $key);
         $className = \end($keys);
 
         return self::camelCaseToUnderscore($className);
+    }
+
+    /**
+     * Transforms a given string from camelCase to under_score style.
+     *
+     * @param string $camel
+     * @param string $splitter
+     *
+     * @return string
+     */
+    public static function camelCaseToUnderscore(string $camel, string $splitter = '_') : string
+    {
+        $camel = \preg_replace(
+            '/(?!^)[[:upper:]][[:lower:]]/',
+            '$0',
+            \preg_replace('/(?!^)[[:upper:]]+/', $splitter.'$0', $camel)
+        );
+
+        return \strtolower($camel);
     }
 
     /**
@@ -36,7 +56,7 @@ final class RecursiveFormatterHelper
      *
      * @return array
      */
-    public static function getIdPropertyAndValues(array &$mappings, array &$value, $type)
+    public static function getIdPropertyAndValues(array &$mappings, array &$value, string $type) : array
     {
         $values = [];
         $idProperties = self::getIdProperties($mappings, $type);
@@ -56,7 +76,7 @@ final class RecursiveFormatterHelper
      *
      * @return array
      */
-    public static function getIdProperties(array &$mappings, $type)
+    public static function getIdProperties(array &$mappings, string $type) : array
     {
         $idProperties = [];
 
@@ -72,7 +92,7 @@ final class RecursiveFormatterHelper
      *
      * @return array
      */
-    public static function getIdValue(array $id)
+    public static function getIdValue(array $id) : array
     {
         self::formatScalarValues($id);
         if (\is_array($id)) {
@@ -97,27 +117,11 @@ final class RecursiveFormatterHelper
     }
 
     /**
-     * Simplifies the data structure by removing an array level if data is scalar and has one element in array.
-     *
-     * @param array $array
-     */
-    public static function flattenObjectsWithSingleKeyScalars(array &$array)
-    {
-        if (1 === \count($array) && \is_scalar(\end($array))) {
-            $array = \array_pop($array);
-        }
-
-        if (\is_array($array)) {
-            self::loopScalarValues($array, 'flattenObjectsWithSingleKeyScalars');
-        }
-    }
-
-    /**
      * @param array $array
      *
      * @return array
      */
-    private static function arrayToScalarValue(array &$array)
+    protected static function arrayToScalarValue(array &$array) : array
     {
         if (\array_key_exists(Serializer::SCALAR_VALUE, $array)) {
             $array = $array[Serializer::SCALAR_VALUE];
@@ -130,7 +134,7 @@ final class RecursiveFormatterHelper
      * @param array  $array
      * @param string $method
      */
-    private static function loopScalarValues(array &$array, $method)
+    protected static function loopScalarValues(array &$array, string $method)
     {
         foreach ($array as $key => &$value) {
             if (\is_array($value)) {
@@ -144,21 +148,18 @@ final class RecursiveFormatterHelper
     }
 
     /**
-     * Transforms a given string from camelCase to under_score style.
+     * Simplifies the data structure by removing an array level if data is scalar and has one element in array.
      *
-     * @param string $camel
-     * @param string $splitter
-     *
-     * @return string
+     * @param array $array
      */
-    public static function camelCaseToUnderscore($camel, $splitter = '_')
+    public static function flattenObjectsWithSingleKeyScalars(array &$array)
     {
-        $camel = \preg_replace(
-            '/(?!^)[[:upper:]][[:lower:]]/',
-            '$0',
-            \preg_replace('/(?!^)[[:upper:]]+/', $splitter.'$0', $camel)
-        );
+        if (1 === \count($array) && \is_scalar(\end($array))) {
+            $array = \array_pop($array);
+        }
 
-        return \strtolower($camel);
+        if (\is_array($array)) {
+            self::loopScalarValues($array, 'flattenObjectsWithSingleKeyScalars');
+        }
     }
 }

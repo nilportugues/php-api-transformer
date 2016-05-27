@@ -11,7 +11,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getClass()
+    public function getClass() : string
     {
         return Post::class;
     }
@@ -19,7 +19,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias() : string
     {
         return 'Message';
     }
@@ -27,7 +27,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getAliasedProperties()
+    public function getAliasedProperties() : array
     {
         return [
             'title' => 'headline',
@@ -38,17 +38,17 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getHideProperties()
+    public function getHideProperties() : array
     {
         return [
-           'comments',
-       ];
+            'comments',
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getIdProperties()
+    public function getIdProperties() : array
     {
         return [
             'postId',
@@ -58,7 +58,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getUrls()
+    public function getUrls() : array
     {
         return [
             'self' => 'http://example.com/posts/{postId}',
@@ -70,7 +70,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
      *
      * @return array
      */
-    public function getCuries()
+    public function getCuries() : array
     {
         return [
             'name' => 'example',
@@ -81,7 +81,7 @@ class PostApiMapping implements JsonApiMapping, HalMapping
     /**
      * {@inheritdoc}
      */
-    public function getRelationships()
+    public function getRelationships() : array
     {
         return [
             'author' => [

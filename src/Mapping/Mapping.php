@@ -6,86 +6,51 @@ use NilPortugues\Api\Transformer\Helpers\RecursiveFormatterHelper;
 
 class Mapping
 {
-    /**
-     * @var string
-     */
-    private $className = '';
-    /**
-     * @var string
-     */
-    private $resourceUrlPattern = '';
-    /**
-     * @var string
-     */
-    private $classAlias = '';
-    /**
-     * @var array
-     */
-    private $aliasedProperties = [];
-    /**
-     * @var array
-     */
-    private $hiddenProperties = [];
-    /**
-     * @var array
-     */
-    private $idProperties = [];
-    /**
-     * @var array
-     */
-    private $relationships = [];
-    /**
-     * @var array
-     */
-    private $metaData = [];
-    /**
-     * @var string
-     */
-    private $selfUrl = '';
+    use NullableTrait;
+
+    /** @var string */
+    protected $className;
+    /** @var string */
+    protected $resourceUrlPattern;
+    /** @var string */
+    protected $classAlias;
+    /** @var array */
+    protected $aliasedProperties;
+    /** @var array */
+    protected $hiddenProperties;
+    /** @var array */
+    protected $idProperties;
+    /** @var array */
+    protected $relationships;
+    /** @var array */
+    protected $metaData;
+    /** @var string */
+    protected $selfUrl;
+    /** @var array */
+    protected $otherUrls;
+    /** @var array */
+    protected $relationshipSelfUrl;
+    /** @var array */
+    protected $filterKeys;
+    /** @var array */
+    protected $curies;
+    /** @var array */
+    protected $properties;
+    /** @var array */
+    protected $includedKeys;
+    /** @var bool */
+    protected $filteringIncluded;
 
     /**
-     * @var array
+     * Mapping constructor.
+     *
+     * @param string      $className
+     * @param string|null $resourceUrlPattern
+     * @param array       $idProperties
      */
-    private $otherUrls = [];
-
-    /**
-     * @var array
-     */
-    private $relationshipSelfUrl = [];
-
-    /**
-     * @var array
-     */
-    private $filterKeys = [];
-
-    /**
-     * @var array
-     */
-    private $curies = [];
-
-    /**
-     * @var array
-     */
-    private $properties = [];
-
-    /**
-     * @var array
-     */
-    private $includedKeys = [];
-
-    /**
-     * @var bool
-     */
-    private $filteringIncluded = true;
-
-    /**
-     * @param       $className
-     * @param null  $resourceUrlPattern
-     * @param array $idProperties
-     */
-    public function __construct($className, $resourceUrlPattern = null, array $idProperties = [])
+    public function __construct(string $className, string $resourceUrlPattern = null, array $idProperties = [])
     {
-        $this->className = (string) $className;
+        $this->className = $className;
         $this->resourceUrlPattern = $resourceUrlPattern;
         $this->idProperties = $idProperties;
     }
@@ -93,7 +58,7 @@ class Mapping
     /**
      * @return string
      */
-    public function getClassAlias()
+    public function getClassAlias() : string
     {
         return $this->classAlias;
     }
@@ -103,7 +68,7 @@ class Mapping
      *
      * @return $this
      */
-    public function setClassAlias($aliasedClass)
+    public function setClassAlias(string $aliasedClass)
     {
         $this->classAlias = RecursiveFormatterHelper::camelCaseToUnderscore(
             RecursiveFormatterHelper::namespaceAsArrayKey($aliasedClass)
@@ -115,32 +80,32 @@ class Mapping
     /**
      * @return array
      */
-    public function getIdProperties()
+    public function getIdProperties() : array
     {
         return (array) $this->idProperties;
     }
 
     /**
-     * @param $idProperty
+     * @param string $idProperty
      */
-    public function addIdProperty($idProperty)
+    public function addIdProperty(string $idProperty)
     {
-        $this->idProperties[] = (string) $idProperty;
+        $this->idProperties[] = $idProperty;
     }
 
     /**
      * @param string $propertyName
      */
-    public function hideProperty($propertyName)
+    public function hideProperty(string $propertyName)
     {
         $this->hiddenProperties[] = $propertyName;
     }
 
     /**
-     * @param $propertyName
-     * @param $propertyAlias
+     * @param string $propertyName
+     * @param string $propertyAlias
      */
-    public function addPropertyAlias($propertyName, $propertyAlias)
+    public function addPropertyAlias(string $propertyName, string $propertyAlias)
     {
         $this->aliasedProperties[$propertyName] = $propertyAlias;
 
@@ -148,12 +113,12 @@ class Mapping
     }
 
     /**
-     * @param $propertyName
-     * @param $propertyAlias
+     * @param string $propertyName
+     * @param string $propertyAlias
      */
-    private function updatePropertyMappings($propertyName, $propertyAlias)
+    protected function updatePropertyMappings(string $propertyName, string $propertyAlias)
     {
-        if (\in_array($propertyName, $this->idProperties)) {
+        if (\in_array($propertyName, (array) $this->idProperties)) {
             $position = \array_search($propertyName, $this->idProperties, true);
             $this->idProperties[$position] = $propertyAlias;
         }
@@ -171,7 +136,10 @@ class Mapping
      */
     public function setPropertyNameAliases(array $properties)
     {
-        $this->aliasedProperties = \array_merge($this->aliasedProperties, $properties);
+        $this->aliasedProperties = \array_merge(
+            (array) $this->aliasedProperties,
+            $properties
+        );
 
         foreach ($this->aliasedProperties as $propertyName => $propertyAlias) {
             $this->updatePropertyMappings($propertyName, $propertyAlias);
@@ -179,7 +147,15 @@ class Mapping
     }
 
     /**
-     * @param $properties
+     * @return array
+     */
+    public function getProperties() : array
+    {
+        return (array) $this->properties;
+    }
+
+    /**
+     * @param array $properties
      */
     public function setProperties(array $properties)
     {
@@ -187,40 +163,33 @@ class Mapping
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getProperties()
+    public function getClassName() : string
     {
-        return $this->properties;
+        return (string) $this->className;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getClassName()
+    public function getResourceUrl() : string
     {
-        return $this->className;
-    }
-
-    /**
-     */
-    public function getResourceUrl()
-    {
-        return $this->resourceUrlPattern;
+        return (string) $this->resourceUrlPattern;
     }
 
     /**
      * @return array
      */
-    public function getAliasedProperties()
+    public function getAliasedProperties() : array
     {
-        return $this->aliasedProperties;
+        return (array) $this->aliasedProperties;
     }
 
     /**
      * @return array
      */
-    public function getHiddenProperties()
+    public function getHiddenProperties() : array
     {
         return (array) $this->hiddenProperties;
     }
@@ -230,15 +199,18 @@ class Mapping
      */
     public function setHiddenProperties(array $hidden)
     {
-        $this->hiddenProperties = \array_merge($this->hiddenProperties, $hidden);
+        $this->hiddenProperties = \array_merge(
+            (array) $this->hiddenProperties,
+            $hidden
+        );
     }
 
     /**
      * @return array
      */
-    public function getRelationships()
+    public function getRelationships() : array
     {
-        return $this->relationships;
+        return (array) $this->relationships;
     }
 
     /**
@@ -252,9 +224,9 @@ class Mapping
     /**
      * @return array
      */
-    public function getMetaData()
+    public function getMetaData() : array
     {
-        return $this->metaData;
+        return (array) $this->metaData;
     }
 
     /**
@@ -267,9 +239,9 @@ class Mapping
 
     /**
      * @param string $key
-     * @param        $value
+     * @param $value
      */
-    public function addMetaData($key, $value)
+    public function addMetaData(string $key, $value)
     {
         $this->metaData[$key] = $value;
     }
@@ -277,31 +249,37 @@ class Mapping
     /**
      * @return string
      */
-    public function getSelfUrl()
+    public function getSelfUrl() : string
     {
-        return $this->selfUrl;
+        return (string) $this->selfUrl;
     }
 
     /**
      * @param string $self
-     *
-     * @throws \InvalidArgumentException
      */
-    public function setSelfUrl($self)
+    public function setSelfUrl(string $self)
     {
-        $this->selfUrl = (string) $self;
+        $this->selfUrl = $self;
     }
 
     /**
-     * @param $propertyName
+     * @param string $propertyName
      *
      * @return string
      */
-    public function getRelatedUrl($propertyName)
+    public function getRelatedUrl(string $propertyName) : string
     {
         return (!empty($this->relationshipSelfUrl[$propertyName]['related']))
             ? $this->relationshipSelfUrl[$propertyName]['related']
             : '';
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilterKeys() : array
+    {
+        return (array) $this->filterKeys;
     }
 
     /**
@@ -313,20 +291,12 @@ class Mapping
     }
 
     /**
-     * @return array
-     */
-    public function getFilterKeys()
-    {
-        return (array) $this->filterKeys;
-    }
-
-    /**
      * @param string $propertyName
-     * @param string $urls
+     * @param $urls
      *
      * @return $this
      */
-    public function setRelationshipUrls($propertyName, $urls)
+    public function setRelationshipUrls(string $propertyName, $urls)
     {
         $this->relationshipSelfUrl[$propertyName] = $urls;
 
@@ -338,7 +308,7 @@ class Mapping
      *
      * @return string
      */
-    public function getRelationshipSelfUrl($propertyName)
+    public function getRelationshipSelfUrl(string $propertyName)
     {
         return (!empty($this->relationshipSelfUrl[$propertyName]['self']))
             ? $this->relationshipSelfUrl[$propertyName]['self']
@@ -356,9 +326,17 @@ class Mapping
     /**
      * @return array
      */
-    public function getUrls()
+    public function getUrls() : array
     {
-        return $this->otherUrls;
+        return (array) $this->otherUrls;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCuries() : array
+    {
+        return (array) $this->curies;
     }
 
     /**
@@ -376,21 +354,12 @@ class Mapping
     }
 
     /**
-     * @return array
-     */
-    public function getCuries()
-    {
-        return $this->curies;
-    }
-
-
-    /**
      * Used by JSON API included resource filtering.
      *
      * @param $resource
      */
-    public function addIncludedResource($resource) {
-
+    public function addIncludedResource($resource)
+    {
         $this->includedKeys[] = $resource;
     }
 
@@ -399,16 +368,15 @@ class Mapping
      *
      * @return array
      */
-    public function getIncludedResources()
+    public function getIncludedResources() : array
     {
-        return $this->includedKeys;
+        return (array) $this->includedKeys;
     }
-
 
     /**
      * @param bool $filtering
      */
-    public function filteringIncludedResources($filtering = true)
+    public function filteringIncludedResources(bool $filtering = true)
     {
         $this->filteringIncluded = $filtering;
     }
@@ -418,8 +386,8 @@ class Mapping
      *
      * @return bool
      */
-    public function isFilteringIncludedResources()
+    public function isFilteringIncludedResources() : bool
     {
-        return $this->filteringIncluded;
+        return (null === $this->filteringIncluded) ? true : $this->filteringIncluded;
     }
 }

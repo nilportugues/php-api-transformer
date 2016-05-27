@@ -10,5 +10,5 @@ interface JsonApiMapping extends ApiMapping
      *
      * @return array
      */
-    public function getRelationships();
+    public function getRelationships() : array;
 }

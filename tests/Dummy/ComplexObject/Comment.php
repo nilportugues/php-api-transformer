@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Tests\Api\Dummy\ComplexObject;
 
 use NilPortugues\Tests\Api\Dummy\ComplexObject\ValueObject\CommentId;
@@ -15,18 +16,12 @@ use NilPortugues\Tests\Api\Dummy\ComplexObject\ValueObject\UserId;
 
 class Comment
 {
-    /**
-     * @var
-     */
-    private $commentId;
-    /**
-     * @var array
-     */
-    private $dates;
-    /**
-     * @var string
-     */
-    private $comment;
+    /** @var CommentId */
+    protected $commentId;
+    /** @var array */
+    protected $dates;
+    /** @var */
+    protected $comment;
 
     /**
      * @param CommentId $id
@@ -43,7 +38,7 @@ class Comment
     }
 
     /**
-     * @return mixed
+     * @return CommentId
      */
     public function getCommentId()
     {

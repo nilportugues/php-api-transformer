@@ -18,36 +18,20 @@ abstract class Transformer implements StrategyInterface
     const LINKS_HREF = 'href';
     const LINKS_KEY = 'links';
 
-    /**
-     * @var Mapping[]
-     */
-    protected $mappings = [];
-    /**
-     * @var string
-     */
-    protected $firstUrl = '';
-    /**
-     * @var string
-     */
-    protected $lastUrl = '';
-    /**
-     * @var string
-     */
-    protected $prevUrl = '';
-    /**
-     * @var string
-     */
-    protected $nextUrl = '';
-
-    /**
-     * @var string
-     */
-    protected $selfUrl = '';
-
-    /**
-     * @var array
-     */
-    protected $meta = [];
+    /** @var Mapping[] */
+    protected $mappings;
+    /** @var string */
+    protected $firstUrl;
+    /** @var string */
+    protected $lastUrl;
+    /** @var string */
+    protected $prevUrl;
+    /** @var string */
+    protected $nextUrl;
+    /** @var string */
+    protected $selfUrl;
+    /** @var array */
+    protected $meta;
 
     /**
      * @param Mapper $mapper
@@ -64,7 +48,7 @@ abstract class Transformer implements StrategyInterface
      *
      * @return string
      */
-    abstract public function serialize($value);
+    abstract public function serialize($value) : string;
 
     /**
      * Unserialization will fail. This is a transformer.
@@ -75,7 +59,7 @@ abstract class Transformer implements StrategyInterface
      *
      * @return array
      */
-    public function unserialize($value)
+    public function unserialize($value) : array
     {
         throw new TransformerException(\sprintf('%s does not perform unserializations.', __CLASS__));
     }
@@ -84,7 +68,7 @@ abstract class Transformer implements StrategyInterface
      * @param string       $key
      * @param array|string $value
      */
-    public function addMeta($key, $value)
+    public function addMeta(string $key, $value)
     {
         $this->meta[$key] = $value;
     }
@@ -106,7 +90,7 @@ abstract class Transformer implements StrategyInterface
      *
      * @return array
      */
-    protected function addHrefToLinks(array $links)
+    protected function addHrefToLinks(array $links) : array
     {
         if (!empty($links)) {
             foreach ($links as &$link) {
@@ -151,7 +135,7 @@ abstract class Transformer implements StrategyInterface
     /**
      * @return array
      */
-    protected function buildLinks()
+    protected function buildLinks() : array
     {
         $links = \array_filter(
             [
@@ -169,9 +153,9 @@ abstract class Transformer implements StrategyInterface
     /**
      * @return string
      */
-    public function getSelfUrl()
+    public function getSelfUrl() : string
     {
-        return $this->selfUrl;
+        return (string) $this->selfUrl;
     }
 
     /**
@@ -179,7 +163,7 @@ abstract class Transformer implements StrategyInterface
      *
      * @return $this
      */
-    public function setSelfUrl($selfUrl)
+    public function setSelfUrl(string $selfUrl)
     {
         $this->selfUrl = $selfUrl;
 
@@ -189,9 +173,9 @@ abstract class Transformer implements StrategyInterface
     /**
      * @return string
      */
-    public function getFirstUrl()
+    public function getFirstUrl() : string
     {
-        return $this->firstUrl;
+        return (string) $this->firstUrl;
     }
 
     /**
@@ -199,63 +183,57 @@ abstract class Transformer implements StrategyInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function setFirstUrl($firstUrl)
+    public function setFirstUrl(string $firstUrl)
     {
-        $this->firstUrl = (string) $firstUrl;
+        $this->firstUrl = $firstUrl;
     }
 
     /**
      * @return string
      */
-    public function getLastUrl()
+    public function getLastUrl() : string
     {
-        return $this->lastUrl;
+        return (string) $this->lastUrl;
     }
 
     /**
      * @param string $lastUrl
-     *
-     * @throws \InvalidArgumentException
      */
-    public function setLastUrl($lastUrl)
+    public function setLastUrl(string $lastUrl)
     {
-        $this->lastUrl = (string) $lastUrl;
+        $this->lastUrl = $lastUrl;
     }
 
     /**
      * @return string
      */
-    public function getPrevUrl()
+    public function getPrevUrl() : string
     {
-        return $this->prevUrl;
+        return (string) $this->prevUrl;
     }
 
     /**
      * @param string $prevUrl
-     *
-     * @throws \InvalidArgumentException
      */
-    public function setPrevUrl($prevUrl)
+    public function setPrevUrl(string $prevUrl)
     {
-        $this->prevUrl = (string) $prevUrl;
+        $this->prevUrl = $prevUrl;
     }
 
     /**
      * @return string
      */
-    public function getNextUrl()
+    public function getNextUrl() : string
     {
-        return $this->nextUrl;
+        return (string) $this->nextUrl;
     }
 
     /**
      * @param string $nextUrl
-     *
-     * @throws \InvalidArgumentException
      */
-    public function setNextUrl($nextUrl)
+    public function setNextUrl(string $nextUrl)
     {
-        $this->nextUrl = (string) $nextUrl;
+        $this->nextUrl = $nextUrl;
     }
 
     /**
@@ -264,8 +242,10 @@ abstract class Transformer implements StrategyInterface
      *
      * @return array
      */
-    protected function getResponseAdditionalLinks(array $copy, $type)
+    protected function getResponseAdditionalLinks(array $copy, string $type) : array
     {
+        $replacedUrls = [];
+
         if (\is_scalar($type) && !empty($this->mappings[$type])) {
             $otherUrls = $this->mappings[$type]->getUrls();
             list($idValues, $idProperties) = RecursiveFormatterHelper::getIdPropertyAndValues(
@@ -280,11 +260,9 @@ abstract class Transformer implements StrategyInterface
                     unset($replacedUrls[$key]);
                 }
             }
-
-            return $replacedUrls;
         }
 
-        return [];
+        return $replacedUrls;
     }
 
     /**
@@ -306,7 +284,7 @@ abstract class Transformer implements StrategyInterface
      *
      * @return array
      */
-    protected static function arrayToScalarValue(array &$array)
+    protected static function arrayToScalarValue(array &$array) : array
     {
         if (\array_key_exists(Serializer::SCALAR_VALUE, $array)) {
             $array = $array[Serializer::SCALAR_VALUE];
@@ -319,7 +297,7 @@ abstract class Transformer implements StrategyInterface
      * @param array  $array
      * @param string $method
      */
-    protected static function loopScalarValues(array &$array, $method)
+    protected static function loopScalarValues(array &$array, string $method)
     {
         foreach ($array as $propertyName => &$value) {
             if (\is_array($value) && self::LINKS_KEY !== $propertyName) {
@@ -347,17 +325,17 @@ abstract class Transformer implements StrategyInterface
     /**
      * @return \NilPortugues\Api\Mapping\Mapping[]
      */
-    public function getMappings()
+    public function getMappings() : array
     {
-        return $this->mappings;
+        return (array) $this->mappings;
     }
 
     /**
      * @param string $alias
      *
-     * @return Mapping|null
+     * @return Mapping
      */
-    public function getMappingByAlias($alias)
+    public function getMappingByAlias(string $alias) : Mapping
     {
         foreach ($this->mappings as $mapping) {
             if (0 === strcasecmp($alias, $mapping->getClassAlias())) {
@@ -365,18 +343,18 @@ abstract class Transformer implements StrategyInterface
             }
         }
 
-        return;
+        return Mapping::null();
     }
 
     /**
      * @param string $className
      *
-     * @return Mapping|null
+     * @return Mapping
      */
-    public function getMappingByClassName($className)
+    public function getMappingByClassName(string $className) : Mapping
     {
         $className = ltrim($className, '\\');
 
-        return (!empty($this->mappings[$className])) ? $this->mappings[$className] : null;
+        return (!empty($this->mappings[$className])) ? $this->mappings[$className] : Mapping::null();
     }
 }

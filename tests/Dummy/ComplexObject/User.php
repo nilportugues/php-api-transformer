@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Tests\Api\Dummy\ComplexObject;
 
 use NilPortugues\Tests\Api\Dummy\ComplexObject\ValueObject\UserId;
@@ -17,11 +18,11 @@ class User
     /**
      * @var UserId
      */
-    private $userId;
+    protected $userId;
     /**
      * @var
      */
-    private $name;
+    protected $name;
 
     /**
      * @param UserId $id

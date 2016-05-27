@@ -9,5 +9,5 @@ interface HalMapping extends ApiMapping
      *
      * @return array
      */
-    public function getCuries();
+    public function getCuries() : array;
 }

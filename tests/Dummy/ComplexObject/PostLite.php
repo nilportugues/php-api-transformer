@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Tests\Api\Dummy\ComplexObject;
 
 use NilPortugues\Tests\Api\Dummy\ComplexObject\ValueObject\PostId;
@@ -18,19 +19,19 @@ class PostLite
     /**
      * @var PostId
      */
-    private $postId;
+    protected $postId;
     /**
      * @var
      */
-    private $title;
+    protected $title;
     /**
      * @var
      */
-    private $content;
+    protected $content;
     /**
      * @var User
      */
-    private $author;
+    protected $author;
 
     /**
      * @param PostId $id

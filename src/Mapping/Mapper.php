@@ -8,21 +8,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Api\Mapping;
 
-/**
- * Class Mapper.
- */
 class Mapper
 {
-    /**
-     * @var array
-     */
-    private $classMap = [];
-    /**
-     * @var array
-     */
-    private $aliasMap = [];
+    /** @var array */
+    protected $classMap = [];
+    /** @var array */
+    protected $aliasMap = [];
 
     /**
      * @param array $mappings
@@ -46,7 +40,7 @@ class Mapper
      *
      * @return Mapping
      */
-    protected function buildMapping($mappedClass)
+    protected function buildMapping($mappedClass) : Mapping
     {
         return (\is_string($mappedClass) && \class_exists($mappedClass, true)) ?
             MappingFactory::fromClass($mappedClass) :
@@ -56,7 +50,7 @@ class Mapper
     /**
      * @return array
      */
-    public function getClassMap()
+    public function getClassMap() : array
     {
         return $this->classMap;
     }

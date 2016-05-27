@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Tests\Api\Mapping;
 
 use NilPortugues\Api\Mapping\Mapping;
@@ -16,30 +17,19 @@ use NilPortugues\Tests\Api\Dummy\SimpleObject\Post;
 
 class MappingTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Mapping
-     */
-    private $mapping;
+    /** @var Mapping */
+    protected $mapping;
 
-    /**
-     *
-     */
     public function setUp()
     {
-        $this->mapping = new Mapping(Post::class,  'http://example.com/posts/{postId}', ['postId']);
+        $this->mapping = new Mapping(Post::class, 'http://example.com/posts/{postId}', ['postId']);
     }
 
-    /**
-     *
-     */
     public function tearDown()
     {
         $this->mapping = null;
     }
 
-    /**
-     *
-     */
     public function testClassAlias()
     {
         $this->mapping->setClassAlias('NewMessage');
@@ -47,9 +37,28 @@ class MappingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('new_message', $this->mapping->getClassAlias());
     }
 
-    /**
-     *
-     */
+    public function testGetProperties()
+    {
+        $this->assertEquals([], $this->mapping->getProperties());
+    }
+
+    public function testGetFilterKeys()
+    {
+        $this->mapping->setFilterKeys(['password']);
+
+        $this->assertEquals(['password'], $this->mapping->getFilterKeys());
+    }
+
+    public function testGetUrls()
+    {
+        $this->assertEquals([], $this->mapping->getUrls());
+    }
+
+    public function testGetCuries()
+    {
+        $this->assertEquals([], $this->mapping->getCuries());
+    }
+
     public function testAliasedProperties()
     {
         $this->mapping->setPropertyNameAliases(['oldName' => 'newName']);
@@ -59,9 +68,6 @@ class MappingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['oldName' => 'newName', 'oldName2' => 'newName2'], $this->mapping->getAliasedProperties());
     }
 
-    /**
-     *
-     */
     public function testAliasedPropertiesRenamedIdProperties()
     {
         $this->mapping->setPropertyNameAliases(['postId' => 'newId']);
@@ -71,9 +77,7 @@ class MappingTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(['newId'], $this->mapping->getIdProperties());
     }
-    /**
-     *
-     */
+
     public function testHiddenProperties()
     {
         $this->mapping->setHiddenProperties(['propertyName']);
@@ -83,9 +87,6 @@ class MappingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['propertyName', 'secondProperty'], $this->mapping->getHiddenProperties());
     }
 
-    /**
-     *
-     */
     public function testIdProperties()
     {
         $this->assertEquals(['postId'], $this->mapping->getIdProperties());
@@ -94,9 +95,6 @@ class MappingTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(['postId', 'userId'], $this->mapping->getIdProperties());
     }
 
-    /**
-     *
-     */
     public function testRelationships()
     {
         $this->mapping->addAdditionalRelationships(
@@ -112,9 +110,6 @@ class MappingTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     *
-     */
     public function testMetaData()
     {
         $this->mapping->setMetaData(['author' => 'Nil Portugués']);
@@ -126,21 +121,36 @@ class MappingTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     *
-     */
     public function testSelfUrl()
     {
         $this->mapping->setSelfUrl('/api/post/{postId}');
         $this->assertEquals('/api/post/{postId}', $this->mapping->getSelfUrl());
     }
 
-    /**
-     *
-     */
     public function testCuriesWillThrowException()
     {
-        $this->setExpectedException(MappingException::class);
+        $this->expectException(MappingException::class);
         $this->mapping->setCuries([]);
+    }
+
+    public function testIncludedResources()
+    {
+        $resource = 'value';
+        $this->mapping->addIncludedResource($resource);
+
+        $this->assertEquals([$resource], $this->mapping->getIncludedResources());
+    }
+
+    public function testFilteringIncludedResources()
+    {
+        $this->mapping->filteringIncludedResources(true);
+        $this->assertTrue($this->mapping->isFilteringIncludedResources());
+    }
+
+    public function testMappingCanBeNull()
+    {
+        $nullable = Mapping::null();
+
+        $this->assertTrue($nullable->isNull());
     }
 }

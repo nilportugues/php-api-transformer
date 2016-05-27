@@ -8,30 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace NilPortugues\Tests\Api\Dummy\SimpleObject;
 
 class Post
 {
-    /**
-     * @var
-     */
-    private $postId;
-    /**
-     * @var
-     */
-    private $title;
-    /**
-     * @var
-     */
-    private $body;
-    /**
-     * @var
-     */
-    private $authorId;
-    /**
-     * @var array
-     */
-    private $comments = [];
+    protected $postId;
+    protected $title;
+    protected $body;
+    protected $authorId;
+    protected $comments = [];
 
     /**
      * @param $postId
@@ -64,6 +50,14 @@ class Post
     }
 
     /**
+     * @return mixed
+     */
+    public function getAuthorId()
+    {
+        return $this->authorId;
+    }
+
+    /**
      * @param mixed $authorId
      *
      * @return $this
@@ -78,9 +72,9 @@ class Post
     /**
      * @return mixed
      */
-    public function getAuthorId()
+    public function getBody()
     {
-        return $this->authorId;
+        return $this->body;
     }
 
     /**
@@ -98,9 +92,9 @@ class Post
     /**
      * @return mixed
      */
-    public function getBody()
+    public function getPostId()
     {
-        return $this->body;
+        return $this->postId;
     }
 
     /**
@@ -118,9 +112,9 @@ class Post
     /**
      * @return mixed
      */
-    public function getPostId()
+    public function getTitle()
     {
-        return $this->postId;
+        return $this->title;
     }
 
     /**
@@ -133,13 +127,5 @@ class Post
         $this->title = $title;
 
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 }
