@@ -63,8 +63,10 @@ final class RecursiveFormatterHelper
         $idProperties = self::getIdProperties($mappings, $type);
 
         foreach ($idProperties as &$propertyName) {
-            $values[] = self::getIdValue($value[$propertyName]);
-            $propertyName = \sprintf('{%s}', $propertyName);
+            if (!empty($value[$propertyName])) {
+                $values[] = self::getIdValue($value[$propertyName]);
+                $propertyName = \sprintf('{%s}', $propertyName);
+            }
         }
         self::flattenObjectsWithSingleKeyScalars($values);
 
