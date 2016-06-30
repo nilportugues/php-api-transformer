@@ -76,4 +76,33 @@ class RecursiveRenamerHelper
             }
         }
     }
+
+    /**
+     * Transforms unmapped objects (Serializer::CLASS_IDENTIFIER_KEY) to arrays (Serializer::MAP_TYPE)
+     *
+     * @param array $array
+     * @param \NilPortugues\Api\Mapping\Mapping[] $mappings
+     * @return array
+     */
+    public static function serializedObjectToArray(array &$array, array &$mappings)
+    {
+        foreach ($array as $key => &$value) {
+            if ($key === Serializer::CLASS_IDENTIFIER_KEY) {
+                $type = $array[Serializer::CLASS_IDENTIFIER_KEY];
+                if (empty($mappings[$type])) {
+                    unset($array[Serializer::CLASS_IDENTIFIER_KEY]);
+                }
+            }
+
+            if (is_array($value)) {
+                foreach($value as $k => &$v) {
+                    if (is_array($v)) {
+                        $v = self::serializedObjectToArray($v, $mappings);
+                    }
+                }
+            }
+        }
+
+        return $array;
+    }
 }
