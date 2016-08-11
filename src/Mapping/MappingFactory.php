@@ -23,6 +23,7 @@ class MappingFactory
     const CLASS_KEY = 'class';
     const ALIAS_KEY = 'alias';
     const ALIASED_PROPERTIES_KEY = 'aliased_properties';
+    const REQUIRED_PROPERTIES_KEY = 'required_properties';
     const HIDE_PROPERTIES_KEY = 'hide_properties';
     const ID_PROPERTIES_KEY = 'id_properties';
     const URLS_KEY = 'urls';
@@ -68,6 +69,7 @@ class MappingFactory
             static::HIDE_PROPERTIES_KEY => $instance->getHideProperties(),
             static::ID_PROPERTIES_KEY => $instance->getIdProperties(),
             static::URLS_KEY => $instance->getUrls(),
+            static::REQUIRED_PROPERTIES_KEY => $instance->getRequiredProperties(),
         ];
 
         if (\in_array(HalMapping::class, \class_implements($instance, true))) {
@@ -102,6 +104,7 @@ class MappingFactory
         static::setRelationships($mappedClass, $mapping, $className);
         static::setCuries($mappedClass, $mapping);
         static::setProperties($mapping, $className);
+        static::setRequiredProperties($mappedClass, $mapping, $className);
 
         $otherUrls = static::getOtherUrls($mappedClass);
         if (!empty($otherUrls)) {
@@ -299,5 +302,28 @@ class MappingFactory
         }
 
         return $mappedClass[static::URLS_KEY];
+    }
+
+    /**
+     * @param array $mappedClass
+     * @param Mapping $mapping
+     * @param $className
+     */
+    protected static function setRequiredProperties(array &$mappedClass, Mapping $mapping, $className)
+    {
+        if (false === empty($mappedClass[static::REQUIRED_PROPERTIES_KEY])) {
+            $mapping->setRequiredProperties($mappedClass[static::REQUIRED_PROPERTIES_KEY]);
+            foreach (\array_keys($mapping->getRequiredProperties()) as $propertyName) {
+                if (false === \in_array($propertyName, static::getClassProperties($className), true)) {
+                    throw new MappingException(
+                        \sprintf(
+                            'Could not add required property %s in class %s because it does not exist.',
+                            $propertyName,
+                            $className
+                        )
+                    );
+                }
+            }
+        }
     }
 }

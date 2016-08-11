@@ -6,82 +6,45 @@ use NilPortugues\Api\Transformer\Helpers\RecursiveFormatterHelper;
 
 class Mapping
 {
-    /**
-     * @var string
-     */
+    /** @var array */
+    protected $requiredProperties = [];
+    /** @var string */
     private $className = '';
-    /**
-     * @var string
-     */
+    /** @var string */
     private $resourceUrlPattern = '';
-    /**
-     * @var string
-     */
+    /** @var string */
     private $classAlias = '';
-    /**
-     * @var array
-     */
+    /** @var array*/
     private $aliasedProperties = [];
-    /**
-     * @var array
-     */
+    /** @var array */
     private $hiddenProperties = [];
-    /**
-     * @var array
-     */
+    /** @var array */
     private $idProperties = [];
-    /**
-     * @var array
-     */
+    /** @var array */
     private $relationships = [];
-    /**
-     * @var array
-     */
+    /** @var array */
     private $metaData = [];
-    /**
-     * @var string
-     */
+    /** @var string */
     private $selfUrl = '';
-
-    /**
-     * @var array
-     */
+    /** @var array */
     private $otherUrls = [];
-
-    /**
-     * @var array
-     */
+    /** @var array */
     private $relationshipSelfUrl = [];
-
-    /**
-     * @var array
-     */
+    /** @var array */
     private $filterKeys = [];
-
-    /**
-     * @var array
-     */
+    /** @var array */
     private $curies = [];
-
-    /**
-     * @var array
-     */
+    /** @var array */
     private $properties = [];
-
-    /**
-     * @var array
-     */
+    /** @var array */
     private $includedKeys = [];
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $filteringIncluded = true;
 
     /**
-     * @param       $className
-     * @param null  $resourceUrlPattern
-     * @param array $idProperties
+     * @param string $className
+     * @param null   $resourceUrlPattern
+     * @param array  $idProperties
      */
     public function __construct($className, $resourceUrlPattern = null, array $idProperties = [])
     {
@@ -421,5 +384,21 @@ class Mapping
     public function isFilteringIncludedResources()
     {
         return $this->filteringIncluded;
+    }
+
+    /**
+     * @param array $requiredProperties
+     */
+    public function setRequiredProperties(array $requiredProperties)
+    {
+        $this->requiredProperties = $requiredProperties;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequiredProperties()
+    {
+        return $this->requiredProperties;
     }
 }

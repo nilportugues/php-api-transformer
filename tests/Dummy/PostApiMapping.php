@@ -90,4 +90,14 @@ class PostApiMapping implements JsonApiMapping, HalMapping
             ],
         ];
     }
+
+    /**
+     * Returns an array of properties that are mandatory to be passed in when doing create or update.
+     *
+     * @return array
+     */
+    public function getRequiredProperties()
+    {
+        return [];
+    }
 }
