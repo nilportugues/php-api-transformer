@@ -107,6 +107,12 @@ final class RecursiveDeleteHelper
             if (!empty($deletions)) {
                 self::deleteNextLevelProperties($mappings, $array, $typeKey, $deletions, $newArray);
             }
+        } else {
+            foreach ($array as &$subArray) {
+                if (is_array($subArray)) {
+                    self::deleteProperties($mappings, $subArray, $typeKey);
+                }
+            }
         }
     }
 }
