@@ -21,6 +21,8 @@ abstract class Transformer implements StrategyInterface
     /** @var Mapping[] */
     protected $mappings;
     /** @var string */
+    protected $attributesCase;
+    /** @var string */
     protected $firstUrl;
     /** @var string */
     protected $lastUrl;
@@ -35,10 +37,12 @@ abstract class Transformer implements StrategyInterface
 
     /**
      * @param Mapper $mapper
+     * @param string $attributesCase
      */
-    public function __construct(Mapper $mapper)
+    public function __construct(Mapper $mapper, string $attributesCase = 'snake_case')
     {
         $this->mappings = $mapper->getClassMap();
+        $this->attributesCase = $attributesCase;
     }
 
     /**
