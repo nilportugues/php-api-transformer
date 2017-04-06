@@ -1,24 +1,13 @@
 # API Transformer
 
-[![Build Status]
-(https://travis-ci.org/nilportugues/php-api-transformer.svg)]
-(https://travis-ci.org/nilportugues/php-api-transformer) 
-[![Scrutinizer Code Quality]
-(https://scrutinizer-ci.com/g/nilportugues/api-transformer/badges/quality-score.png?b=master)]
-(https://scrutinizer-ci.com/g/nilportugues/api-transformer/?branch=master)
-[![SensioLabsInsight]
-(https://insight.sensiolabs.com/projects/b4e5056d-c552-407e-ae21-2da685e07c06/mini.png)]
-(https://insight.sensiolabs.com/projects/b4e5056d-c552-407e-ae21-2da685e07c06)
-[![Latest Stable Version]
-(https://poser.pugx.org/nilportugues/api-transformer/v/stable)]
-(https://packagist.org/packages/nilportugues/api-transformer) 
-[![Total Downloads]
-(https://poser.pugx.org/nilportugues/api-transformer/downloads)]
-(https://packagist.org/packages/nilportugues/api-transformer)
-[![License]
-(https://poser.pugx.org/nilportugues/api-transformer/license)]
-(https://packagist.org/packages/nilportugues/api-transformer) 
+[![Build Status](https://travis-ci.org/nilportugues/php-api-transformer.svg)](https://travis-ci.org/nilportugues/php-api-transformer) 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nilportugues/api-transformer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nilportugues/api-transformer/?branch=master)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/b4e5056d-c552-407e-ae21-2da685e07c06/mini.png)](https://insight.sensiolabs.com/projects/b4e5056d-c552-407e-ae21-2da685e07c06)
+[![Latest Stable Version](https://poser.pugx.org/nilportugues/api-transformer/v/stable)](https://packagist.org/packages/nilportugues/api-transformer)
+[![Total Downloads](https://poser.pugx.org/nilportugues/api-transformer/downloads)](https://packagist.org/packages/nilportugues/api-transformer)
+[![License](https://poser.pugx.org/nilportugues/api-transformer/license)](https://packagist.org/packages/nilportugues/api-transformer)
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://paypal.me/nilportugues)
+
 ## Purpose
 This library provides the core functionality for API transformation and is a base library for many other packages. 
 
