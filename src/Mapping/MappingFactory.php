@@ -128,7 +128,7 @@ class MappingFactory
      *
      * @return string
      */
-    protected static function getSelfUrl(array &$mappedClass) : string
+    protected static function getSelfUrl(array &$mappedClass)
     {
         if (empty($mappedClass[static::URLS_KEY][static::SELF_KEY])) {
             throw new MappingException(
