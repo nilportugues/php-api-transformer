@@ -94,7 +94,7 @@ abstract class Transformer implements StrategyInterface
      *
      * @return array
      */
-    protected function addHrefToLinks(array $links) : array
+    protected function addHrefToLinks(array $links)
     {
         if (!empty($links)) {
             foreach ($links as &$link) {
@@ -157,7 +157,7 @@ abstract class Transformer implements StrategyInterface
     /**
      * @return string
      */
-    public function getSelfUrl() : string
+    public function getSelfUrl()
     {
         return (string) $this->selfUrl;
     }
@@ -177,7 +177,7 @@ abstract class Transformer implements StrategyInterface
     /**
      * @return string
      */
-    public function getFirstUrl() : string
+    public function getFirstUrl()
     {
         return (string) $this->firstUrl;
     }
@@ -195,7 +195,7 @@ abstract class Transformer implements StrategyInterface
     /**
      * @return string
      */
-    public function getLastUrl() : string
+    public function getLastUrl()
     {
         return (string) $this->lastUrl;
     }
@@ -211,7 +211,7 @@ abstract class Transformer implements StrategyInterface
     /**
      * @return string
      */
-    public function getPrevUrl() : string
+    public function getPrevUrl()
     {
         return (string) $this->prevUrl;
     }
@@ -227,7 +227,7 @@ abstract class Transformer implements StrategyInterface
     /**
      * @return string
      */
-    public function getNextUrl() : string
+    public function getNextUrl()
     {
         return (string) $this->nextUrl;
     }
@@ -270,7 +270,7 @@ abstract class Transformer implements StrategyInterface
     }
 
     /**
-     * Replaces the Serializer array structure representing 
+     * Replaces the Serializer array structure representing
      * scalar values to the actual scalar value using recursion.
      *
      * @param array $array
@@ -289,7 +289,7 @@ abstract class Transformer implements StrategyInterface
      *
      * @return array
      */
-    protected static function arrayToScalarValue(array &$array) : array
+    protected static function arrayToScalarValue(array &$array)
     {
         if (\array_key_exists(Serializer::SCALAR_VALUE, $array)) {
             $array = $array[Serializer::SCALAR_VALUE];
@@ -312,7 +312,7 @@ abstract class Transformer implements StrategyInterface
     }
 
     /**
-     * Simplifies the data structure by removing an array level 
+     * Simplifies the data structure by removing an array level
      * if data is scalar and has one element in array.
      *
      * @param array $array
