@@ -79,7 +79,7 @@ final class RecursiveFormatterHelper
      *
      * @return array
      */
-    public static function getIdProperties(array &$mappings, string $type) : array
+    public static function getIdProperties(array &$mappings, string $type) 
     {
         $idProperties = [];
 
@@ -95,7 +95,7 @@ final class RecursiveFormatterHelper
      *
      * @return array
      */
-    public static function getIdValue(array $id) : array
+    public static function getIdValue(array $id) 
     {
         self::formatScalarValues($id);
         if (\is_array($id)) {
@@ -125,7 +125,7 @@ final class RecursiveFormatterHelper
      *
      * @return array
      */
-    protected static function arrayToScalarValue(array &$array) : array
+    protected static function arrayToScalarValue(array &$array)
     {
         if (\array_key_exists(Serializer::SCALAR_VALUE, $array)) {
             $array = $array[Serializer::SCALAR_VALUE];
