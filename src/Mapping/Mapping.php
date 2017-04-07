@@ -60,7 +60,7 @@ class Mapping
      */
     public function getClassAlias() : string
     {
-        return $this->classAlias;
+        return (string) $this->classAlias;
     }
 
     /**
