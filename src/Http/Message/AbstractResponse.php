@@ -44,9 +44,9 @@ abstract class AbstractResponse implements ResponseInterface
      * @param int    $status
      * @param array  $headers
      *
-     * @return AbstractResponse
+     * @return Response
      */
-    protected function instance(string $body, int $status = 200, array $headers = []) : AbstractResponse
+    protected function instance(string $body, int $status = 200, array $headers = []) : Response
     {
         $response = new Response('php://memory', $status, $headers);
         $response->getBody()->write($body);
