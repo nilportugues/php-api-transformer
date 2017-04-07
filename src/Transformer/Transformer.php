@@ -52,7 +52,7 @@ abstract class Transformer implements StrategyInterface
      *
      * @return string
      */
-    abstract public function serialize($value) : string;
+    abstract public function serialize($value);
 
     /**
      * Unserialization will fail. This is a transformer.
